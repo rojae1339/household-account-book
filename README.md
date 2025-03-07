@@ -19,7 +19,6 @@ If you want to manage money better? <br> Don't hesitate to use this web!
 adding...
 
 ## Tech Stack
-
 <!--JS-->
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/>
 <!--TS-->
