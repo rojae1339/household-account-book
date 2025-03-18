@@ -41,9 +41,10 @@ adding...
 <img src="https://img.shields.io/badge/zustand-157272?style=for-the-badge&logo=&logoColor=white"/>
 <!--react-query-->
 <img src="https://img.shields.io/badge/React%20Query-FF4154?style=for-the-badge&logo=React%20Query&logoColor=white"/>
-<!--react router-->
-<img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React%20Router&logoColor=white"/>
-
+<!--zod-->
+<img src="https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=Zod&logoColor=white"/>
+<!--react hook form-->
+<img src="https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=for-the-badge&logo=React%20Hook%20Form&logoColor=white"/>
 
 <br><br>
 **Not using 'OAuth' & 'JWT'.**<br>
