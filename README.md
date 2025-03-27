@@ -135,6 +135,11 @@ export const ledgerNavObject: TNavObjectGroup = {
    1. 일정 크기 이하로 화면이 줄면 햄버거 메뉴 추가
    2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
 
+#### 홈/로그인/회원가입 페이지
+
+ModalDefault에서 AuthModal로 하지않고
+layout에 지정해두고 자체적으로 분기처리
+
 ## Tech Stack
 
 ### Language

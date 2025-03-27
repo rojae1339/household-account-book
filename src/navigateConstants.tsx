@@ -11,7 +11,11 @@ import { FaUserGraduate } from 'react-icons/fa';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 
-export const homeDir: string = '/home';
+export const mainDir: string = '/';
+export const signinDir: string = '/signin';
+export const signupDir: string = '/signup';
+
+export const homeDir: string = '/ledger';
 export const transactionHistoryDir: string = homeDir + '/history';
 export const transactionDashboardDir: string = homeDir + '/dashboard';
 export const expensesPerIncomeDir: string = homeDir + '/EPI';

@@ -1,8 +1,28 @@
+'use client';
+
 import React, { ReactNode } from 'react';
 import ModalDefault from '@/_component/Modal';
+import { usePathname } from 'next/navigation';
+import { signinDir, signupDir } from '@/navigateConstants';
 
-type props = { children: ReactNode };
+//todo
+export default function AuthModalLayout() {
+    const pathname = usePathname();
 
-export default function SignModalLayout({ children }: props) {
-    return <ModalDefault>{children}</ModalDefault>;
+    switch (pathname) {
+        case signupDir:
+            return (
+                <ModalDefault>
+                    <hr />
+                    siunup dladlal
+                </ModalDefault>
+            );
+        case signinDir:
+            return (
+                <ModalDefault>
+                    <hr />
+                    siunin modaldldl
+                </ModalDefault>
+            );
+    }
 }
