@@ -1,2 +1,72 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
+@theme {
+    --breakpoint-2xs: 20rem;
+    --breakpoint-xs: 28rem;
+    --border-b-1: 1px;
+    --textshadow-md: '0 1px 2px var(--tw-shadow-color)';
+}
+
+@layer utilities {
+    .text-shadow-none {
+        text-shadow: 0 0px 0px rgba(0, 0, 0, 1);
+    }
+    .text-shadow-sm {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+    }
+    .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+    }
+    .text-shadow-lg {
+        text-shadow: 0 8px 16px rgba(0, 0, 0, 1);
+    }
+    .text-shadow-xl {
+        text-shadow: 0 10px 20px rgba(0, 0, 0, 1);
+    }
+
+    .top-sidebar-sticky {
+        @apply top-16;
+    }
+    .h-sidebar {
+        @apply h-[90vh];
+    }
+    .min-h-sidebar {
+        @apply h-[800px];
+    }
+    .h-sidebar-sm {
+        @apply h-[80vh];
+    }
+
+    .h-side-nav {
+        @apply h-12;
+    }
+
+    .hover\:text-shadow-sm:hover {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+    }
+    .hover\:text-shadow:hover {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+    }
+}
+
+/* 스크롤바 전체 스타일 */
+::-webkit-scrollbar {
+    width: 4px; /* 세로 스크롤바 너비 */
+}
+
+/* 스크롤바 트랙(배경) */
+::-webkit-scrollbar-track {
+    background: #eeeeee;
+    border-radius: 10px;
+}
+
+/* 스크롤바 핸들(움직이는 부분) */
+::-webkit-scrollbar-thumb {
+    background: #626262;
+    border-radius: 10px;
+}
+
+/* 스크롤바 핸들에 마우스를 올렸을 때 */
+::-webkit-scrollbar-thumb:hover {
+    background: #404040;
+}
