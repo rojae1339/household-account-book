@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 import Link from 'next/link';
-import { homeDir, pagesNavObject } from '@/navigateConstants';
+import { homeDir, pagesNavObject } from '@/_constants/navigateConstants';
 import LogoIcon from '@/_component/LocoIcon';
 
 export default function Header() {

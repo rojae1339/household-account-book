@@ -1,14 +1,15 @@
 'use client';
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { signupSchema, signinSchema } from '@/_API/authSchema';
+import React, { useEffect, useRef, useState } from 'react';
+import { signinSchema, signupSchema } from '@/_API/authSchema';
 import ModalDefault from '@/_component/Modal';
 import { redirect, RedirectType, usePathname } from 'next/navigation';
-import { OAuthNavObject, signupDir } from '@/navigateConstants';
+import { OAuthNavObject, pwFindDir, signinDir, signupDir } from '@/_constants/navigateConstants';
 import Link from 'next/link';
 import LogoIcon from '@/_component/LocoIcon';
 import Button from '@/_component/Button';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
+import { baseProps } from '@/_constants/props';
 
 //todo
 export default function AuthModalLayout() {
@@ -39,7 +40,7 @@ export default function AuthModalLayout() {
 
         const result = schema.safeParse(formData);
 
-        // 로그인 시 특정 이메일이 아니라면 회원가입 페이지로 리디렉션
+        // todo 로그인 시 특정 이메일이 아니라면 회원가입 페이지로 리디렉션
         if (!isPathnameSignup && idInput !== 'aa@aa.aa') {
             setPwInput('');
             redirect(signupDir, RedirectType.replace);
@@ -51,7 +52,7 @@ export default function AuthModalLayout() {
                 const formattedErrors = result.error.format();
                 setErrors({
                     email: formattedErrors.email?._errors[0],
-                    password: formattedErrors.password._errors[0],
+                    password: formattedErrors.password?._errors[0],
                 });
                 return;
             }
@@ -60,8 +61,13 @@ export default function AuthModalLayout() {
         }
 
         //todo signin일때 pw검증
+        if (pwInput === '') {
+            setErrors({ password: result.error?.format().password?._errors[0] });
+            return;
+        }
+
         if (pwInput !== 'aa') {
-            setErrors({ password: '비밀번호가 올바르지 않습니다.' });
+            setErrors({ password: '올바르지 않은 비밀번호입니다.' });
             return;
         }
         redirect('/ledger');
@@ -82,6 +88,15 @@ export default function AuthModalLayout() {
             setIsPwVisible(false);
         }
     }, [pwInput]);
+
+    if (pathname === pwFindDir) {
+        return (
+            /*todo*/
+            <ModalDefault>
+                <div>pwfind</div>
+            </ModalDefault>
+        );
+    }
 
     return (
         <ModalDefault>
@@ -173,7 +188,6 @@ export default function AuthModalLayout() {
                                     }
                                 }}
                             />
-
                             {/*pw change visibility*/}
                             <Button
                                 action={onClickChangeVisibilityPW}
@@ -183,6 +197,14 @@ export default function AuthModalLayout() {
                             >
                                 {!isPwVisible || !pwInput ? <IoEyeOff /> : <IoEye />}
                             </Button>
+
+                            {/*account a11y*/}
+                            <Link
+                                className={'text-blue-500 absolute left-2 top-16'}
+                                href={isPathnameSignup ? signinDir : pwFindDir}
+                            >
+                                {isPathnameSignup ? '계정이 있으신가요?' : '비밀번호 찾기'}
+                            </Link>
 
                             {/*pw error*/}
                             {errors.password && (
@@ -207,8 +229,7 @@ export default function AuthModalLayout() {
     );
 }
 
-type props = { children: ReactNode };
-export function InvalidInputError({ children }: props) {
+export function InvalidInputError({ children }: baseProps) {
     const [isScreenSizeEnough, setIsScreenSizeEnough] = useState<boolean>(window.innerWidth > 736);
 
     const minInnerWidth = 736;

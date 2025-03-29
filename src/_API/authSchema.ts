@@ -26,4 +26,5 @@ export const signinSchema = z.object({
         .email('올바르지 않은 이메일 형식입니다.')
         .length(0, '올바른 이메일을 입력하세요.')
         .regex(emailRegex, '이메일 형식: example@domain.com'),
+    password: z.string().length(0, '비밀번호를 입력하세요.'),
 });

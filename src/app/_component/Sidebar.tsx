@@ -13,7 +13,7 @@ import {
     profileDir,
     profileNavObject,
     TNavObjectGroup,
-} from '@/navigateConstants';
+} from '@/_constants/navigateConstants';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 

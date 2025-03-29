@@ -1,24 +1,20 @@
 import { IoCaretBack, IoCaretForward, IoNewspaperSharp } from 'react-icons/io5';
 import { FaMoneyBillWave, FaSignsPost } from 'react-icons/fa6';
-import { MdOutlineHistoryEdu, MdOutlineTipsAndUpdates } from 'react-icons/md';
-import { MdSpaceDashboard } from 'react-icons/md';
+import { MdOutlineHistoryEdu, MdOutlineTipsAndUpdates, MdSpaceDashboard } from 'react-icons/md';
 import { BsGraphUp } from 'react-icons/bs';
-import { GiArtificialHive, GiSaveArrow } from 'react-icons/gi';
-import { GiBuyCard } from 'react-icons/gi';
+import { GiArtificialHive, GiBuyCard, GiSaveArrow } from 'react-icons/gi';
 import { ReactNode } from 'react';
-import { FcSupport } from 'react-icons/fc';
-import { FaUserGraduate } from 'react-icons/fa';
+import { FcGoogle, FcSupport } from 'react-icons/fc';
+import { FaFacebook, FaUserGraduate } from 'react-icons/fa';
 import { LiaUserEditSolid } from 'react-icons/lia';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { FaFacebook } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { RiKakaoTalkFill } from 'react-icons/ri';
+import { RiDeleteBin5Fill, RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
 
 //auth dir
 export const mainDir: string = '/';
 export const signinDir: string = '/signin';
 export const signupDir: string = '/signup';
+export const pwFindDir: string = '/pw-find';
 
 //main service dir
 export const homeDir: string = '/ledger';

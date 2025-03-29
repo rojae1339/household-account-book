@@ -1,16 +1,22 @@
 'use client';
 
 import React, { ReactNode } from 'react';
+import { baseProps } from '@/_constants/props';
 
-type props = {
-    children?: ReactNode;
+type buttonProps = baseProps & {
     action: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     type: 'submit' | 'button' | 'reset' | undefined;
     className: string;
     disabled?: boolean;
 };
 
-export default function Button({ children, action, type, className, disabled = false }: props) {
+export default function Button({
+    children,
+    action,
+    type,
+    className,
+    disabled = false,
+}: buttonProps) {
     return (
         <button
             className={className}

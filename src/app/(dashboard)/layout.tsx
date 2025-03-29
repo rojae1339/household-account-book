@@ -7,7 +7,7 @@ export default function AfterSignupLayout({ children }: Readonly<{ children: Rea
         <>
             <Header />
 
-            <div className={'flex flex-row gap-4'}>
+            <div className={'flex flex-row gap-4 pt-14'}>
                 <Sidebar />
                 <main className={`md:pl-64 sm:pl-56 pl-10`}>{children}</main>
             </div>
