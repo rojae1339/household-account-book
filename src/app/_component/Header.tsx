@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa';
 import Link from 'next/link';
 import { homeDir, pagesNavObject } from '@/navigateConstants';
+import LogoIcon from '@/_component/LocoIcon';
 
 export default function Header() {
     const pathname: string = usePathname();
@@ -22,7 +23,7 @@ export default function Header() {
                     href={homeDir}
                     className={'flex flex-row items-center gap-4'}
                 >
-                    <FaQuestionCircle className={'text-2xl'} />
+                    <LogoIcon className={'text-2xl'} />
                     <h1 className={'text-xl'}>household</h1>
                 </Link>
             </div>

@@ -56,36 +56,8 @@ export type TNavObjectGroup = Record<string, INavObject>;
 4. 반응형 디자인 추가
 5. 변수로 경로지정해 유지보수 간편화
 
-```tsx
-export const homeDir: string = "/home";
-export const forumDir: string = "/forum";
-export const profileDir: string = "/profile";
-export const transactionHistoryDir: string = homeDir + "/history";
-export const transactionDashboardDir: string = homeDir + "/dashboard";
-export const expensesPerIncomeDir: string = homeDir + "/EPI";
-export const adviceAIDir: string = homeDir + "/advice";
-export const buyOrRentDir: string = homeDir + "/BoR";
 
-export const pagesNavObject: TNavObjectGroup = {
-  homeDir: {
-    url: homeDir,
-    icon: null,
-    displayName: "Home",
-  },
-  forumDir: {
-    url: forumDir,
-    icon: null,
-    displayName: "Forum",
-  },
-  profileDir: {
-    url: profileDir,
-    icon: null,
-    displayName: "Profile" /*<ImProfile/>*/,
-  },
-};
-```
-
-#### Sidebar 컴포넌트
+#### Sidebar 컴포넌트(클라이언트 컴포넌트)
 
 1. 각 탭(가계부, 게시글, 프로필)에 따라 네비게이션 변화
    1. 상수 객체로 map을 이용해서 출력
@@ -93,44 +65,6 @@ export const pagesNavObject: TNavObjectGroup = {
 2. 네비게이션 객체를 타입으로 지정함으로서 유지보수 간편화
    1. NavObject객체의 타입을 interface로 지정
    2. 이러한 NavObject객체의 그룹을 type으로 지정
-
-```tsx
-const navIconSize: number = 20;
-
-export const ledgerNavObject: TNavObjectGroup = {
-  addTransaction: {
-    url: homeDir,
-    icon: <FaMoneyBillWave size={navIconSize} />,
-    displayName: "거래입력",
-  },
-  historyTransaction: {
-    url: transactionHistoryDir,
-    icon: <MdOutlineHistoryEdu size={navIconSize} />,
-    displayName: "거래내역",
-  },
-  dashboard: {
-    url: transactionDashboardDir,
-    icon: <MdSpaceDashboard size={navIconSize} />,
-    displayName: "대시보드",
-  },
-  expensesPerIncome: {
-    url: expensesPerIncomeDir,
-    icon: <BsGraphUp size={navIconSize} />,
-    displayName: "수입/지출표",
-  },
-  AdviceAI: {
-    url: adviceAIDir,
-    icon: <GiArtificialHive size={navIconSize} />,
-    displayName: "AI조언",
-  },
-  buyOrRent: {
-    url: buyOrRentDir,
-    icon: <GiBuyCard size={navIconSize} />,
-    displayName: "Buy or Rent?",
-  },
-};
-```
-
 3. 반응형 디자인 추가
    1. 일정 크기 이하로 화면이 줄면 햄버거 메뉴 추가
    2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
@@ -170,10 +104,6 @@ layout에 지정해두고 자체적으로 분기처리
 zod
 eslint
 prettier
-
-<br><br>
-**Not using 'OAuth' & 'JWT'.**<br>
-**Because in this size of project, it's overengineering**
 
 ## ER-Diagram
 

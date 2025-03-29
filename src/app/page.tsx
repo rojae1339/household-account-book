@@ -15,13 +15,13 @@ export default function HomePage() {
         <div className={'flex flex-col'}>
             main
             <Button
-                onClick={handleF}
+                action={handleF}
                 className={'bg-blue-300/30 hover:cursor-pointer'}
             >
-                modal bttn
+                modal signup
             </Button>
             <Button
-                onClick={handleS}
+                action={handleS}
                 className={'bg-blue-300/30 hover:cursor-pointer'}
             >
                 modal signin

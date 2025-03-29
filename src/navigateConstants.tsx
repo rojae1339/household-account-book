@@ -10,11 +10,17 @@ import { FcSupport } from 'react-icons/fc';
 import { FaUserGraduate } from 'react-icons/fa';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { FaFacebook } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { RiKakaoTalkFill } from 'react-icons/ri';
+import { SiNaver } from 'react-icons/si';
 
+//auth dir
 export const mainDir: string = '/';
 export const signinDir: string = '/signin';
 export const signupDir: string = '/signup';
 
+//main service dir
 export const homeDir: string = '/ledger';
 export const transactionHistoryDir: string = homeDir + '/history';
 export const transactionDashboardDir: string = homeDir + '/dashboard';
@@ -37,6 +43,7 @@ export interface INavObject {
     url: string;
     icon: ReactNode | null;
     displayName: string;
+    bg_color?: string;
 }
 
 // NavObject 객체들의 모임 타입 지정
@@ -160,5 +167,33 @@ export const profileNavObject: TNavObjectGroup = {
         url: deleteProfile,
         icon: <RiDeleteBin5Fill size={navIconSize} />,
         displayName: '회원탈퇴',
+    },
+};
+
+//OAuth dir
+export const OAuthNavObject: TNavObjectGroup = {
+    facebookOAuth: {
+        url: '/',
+        icon: <FaFacebook size={navIconSize} />,
+        displayName: 'Facebook 계정으로 계속하기',
+        bg_color: 'bg-blue-400 text-white',
+    },
+    kakaoOAuth: {
+        url: thriftyForum,
+        icon: <RiKakaoTalkFill size={navIconSize} />,
+        displayName: '카카오 계정으로 계속하기',
+        bg_color: 'bg-yellow-300',
+    },
+    naverOAuth: {
+        url: newsForum,
+        icon: <SiNaver size={navIconSize} />,
+        displayName: '네이버 계정으로 계속하기',
+        bg_color: 'bg-green-300',
+    },
+    googleOAuth: {
+        url: '/',
+        icon: <FcGoogle size={navIconSize} />,
+        displayName: '구글 계정으로 계속하기',
+        bg_color: '',
     },
 };

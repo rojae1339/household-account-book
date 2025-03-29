@@ -47,6 +47,10 @@
     .hover\:text-shadow:hover {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
     }
+
+    .oauth-nav {
+        @apply w-full rounded-md md:px-4 px-2 py-3 shadow-md
+    }
 }
 
 /* 스크롤바 전체 스타일 */
