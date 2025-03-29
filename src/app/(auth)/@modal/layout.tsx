@@ -4,12 +4,11 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { signupSchema, signinSchema } from '@/_API/authSchema';
 import ModalDefault from '@/_component/Modal';
 import { redirect, RedirectType, usePathname } from 'next/navigation';
-import { OAuthNavObject, signinDir, signupDir } from '@/navigateConstants';
+import { OAuthNavObject, signupDir } from '@/navigateConstants';
 import Link from 'next/link';
 import LogoIcon from '@/_component/LocoIcon';
 import Button from '@/_component/Button';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import AuthError from '@/app/(auth)/@modal/error';
 
 //todo
 export default function AuthModalLayout() {
@@ -52,7 +51,7 @@ export default function AuthModalLayout() {
                 const formattedErrors = result.error.format();
                 setErrors({
                     email: formattedErrors.email?._errors[0],
-                    password: formattedErrors.password?._errors[0],
+                    password: formattedErrors.password._errors[0],
                 });
                 return;
             }
@@ -86,7 +85,7 @@ export default function AuthModalLayout() {
 
     return (
         <ModalDefault>
-            <div>
+            <div className={'flex flex-col h-full justify-center'}>
                 {/*introduce*/}
                 <div
                     className={
@@ -94,7 +93,7 @@ export default function AuthModalLayout() {
                     }
                 >
                     <LogoIcon className={''} />
-                    <div className={'xl:text-lg md:text-base text-sm'}>
+                    <div className={'xl:text-lg md:text-base xs:text-sm 2xs:text-lg'}>
                         {isPathnameSignup ? introduce.signup : introduce.signin}
                     </div>
                 </div>
