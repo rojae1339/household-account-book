@@ -1,15 +1,23 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { FaQuestionCircle } from 'react-icons/fa';
 import Link from 'next/link';
-import { homeDir, pagesNavObject } from '@/_constants/navigateConstants';
+import {
+    homeDir,
+    mainDir,
+    pagesNavObject,
+    pwFindDir,
+    signinDir,
+    signupDir,
+} from '@/_constants/navigateConstants';
 import LogoIcon from '@/_component/LocoIcon';
+import Button from '@/_component/Button';
 
 export default function Header() {
     const pathname: string = usePathname();
-    const [input, setInput] = useState('');
+
+    const isAuthDirMatchingPath = [mainDir, signinDir, signupDir, pwFindDir].includes(pathname);
 
     return (
         <header
@@ -20,7 +28,7 @@ export default function Header() {
             {/*로고*/}
             <div className={`lg:pl-10 pl-4 xs:block hidden`}>
                 <Link
-                    href={homeDir}
+                    href={isAuthDirMatchingPath ? mainDir : homeDir}
                     className={'flex flex-row items-center gap-4'}
                 >
                     <LogoIcon className={'text-2xl'} />
@@ -28,17 +36,52 @@ export default function Header() {
                 </Link>
             </div>
 
+            {isAuthDirMatchingPath ? <AuthHeader /> : <NavHeader pathname={pathname} />}
+        </header>
+    );
+}
+
+export function AuthHeader() {
+    const router = useRouter();
+
+    //todo 뭘 넣어야할까
+    return (
+        <div className={'w-full'}>
+            <div className={'flex gap-6 px-6 w-full xs:w-auto xs:justify-end justify-between'}>
+                <Button
+                    action={() => router.push('/signin')}
+                    className={'bg-blue-300/30 hover:cursor-pointer'}
+                    type={'button'}
+                >
+                    {<p>Login</p>}
+                </Button>
+                <Button
+                    action={() => router.push('/signup')}
+                    className={'bg-blue-300/30 hover:cursor-pointer'}
+                    type={'button'}
+                >
+                    Sign Up
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+export function NavHeader({ pathname }: { pathname: string }) {
+    const [searchBarInput, setSearchBarInput] = useState<string>('');
+
+    return (
+        <>
             {/*서치바*/}
             <form className={'rounded-md w-2/5 sm:block hidden py-1'}>
                 <input
                     placeholder={'검색어를 입력하세요'}
                     className={`w-full py-2 px-4 rounded-md focus:outline-0 bg-blue-500 focus:bg-blue-600 focus:rounded-xs`}
-                    onChange={(e) => setInput(e.currentTarget.value)}
+                    onChange={(e) => setSearchBarInput(e.currentTarget.value)}
                 />
             </form>
 
             {/*todo search dropdown*/}
-
             {/*네비게이션*/}
             <nav
                 className={
@@ -57,6 +100,6 @@ export default function Header() {
                     );
                 })}
             </nav>
-        </header>
+        </>
     );
 }

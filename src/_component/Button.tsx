@@ -10,6 +10,8 @@ type buttonProps = baseProps & {
     disabled?: boolean;
 };
 
+//todo button style 지정
+
 export default function Button({
     children,
     action,

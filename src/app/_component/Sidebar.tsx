@@ -75,6 +75,7 @@ export default function Sidebar() {
                 <Button
                     className="absolute top-4 right-[-40px] p-2 text-gray-500 hover:text-white sm:hidden bg-blue-300 rounded-r-lg shadow"
                     action={() => setIsOpen(!isOpen)}
+                    type={'button'}
                 >
                     <FaHamburger size={20} />
                 </Button>
@@ -92,6 +93,7 @@ export default function Sidebar() {
                                 return (
                                     <Button
                                         key={`side_${icon.keyName}`}
+                                        type={'button'}
                                         action={icon.onClick}
                                         className={`cursor-pointer text-2xl transform duration-100
                                         ${icon.keyName.includes('Back') ? 'hover:pl-1 hover:text-3xl' : 'hover:pr-1 hover:text-3xl'}`}

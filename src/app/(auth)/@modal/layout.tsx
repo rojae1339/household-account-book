@@ -1,22 +1,23 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { signinSchema, signupSchema } from '@/_API/authSchema';
+import React, { Ref, useEffect, useRef, useState } from 'react';
+import { pwFindSchema, signinSchema, signupSchema } from '@/_API/authSchema';
 import ModalDefault from '@/_component/Modal';
-import { redirect, RedirectType, usePathname } from 'next/navigation';
+import { redirect, RedirectType, usePathname, useRouter } from 'next/navigation';
 import { OAuthNavObject, pwFindDir, signinDir, signupDir } from '@/_constants/navigateConstants';
 import Link from 'next/link';
 import LogoIcon from '@/_component/LocoIcon';
 import Button from '@/_component/Button';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { baseProps } from '@/_constants/props';
+import { insertFormUser } from '@/_lib/_user/actions';
 
 //todo
 export default function AuthModalLayout() {
     const pathname: string = usePathname();
+    const router = useRouter();
     const [idInput, setIdInput] = useState<string>('');
     const [pwInput, setPwInput] = useState<string>('');
-
     const [isPwVisible, setIsPwVisible] = useState<boolean>(false);
     const [inputType, setInputType] = useState<'password' | 'text'>('password');
     const pwInputRef = useRef(null);
@@ -29,48 +30,11 @@ export default function AuthModalLayout() {
         signin: 'Login to your own ledger and manage money!',
     };
 
-    //todo continue 누를시 핸들링
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // 기본 제출 동작 방지
+    //todo email verification 핸들링
+    const handleEmailVerificationSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
 
-        const schema = isPathnameSignup ? signupSchema : signinSchema;
-        const formData = isPathnameSignup
-            ? { email: idInput, password: pwInput }
-            : { email: idInput, password: pwInput };
-
-        const result = schema.safeParse(formData);
-
-        // todo 로그인 시 특정 이메일이 아니라면 회원가입 페이지로 리디렉션
-        if (!isPathnameSignup && idInput !== 'aa@aa.aa') {
-            setPwInput('');
-            redirect(signupDir, RedirectType.replace);
-        }
-
-        // Zod 검증
-        if (isPathnameSignup) {
-            if (!result.success) {
-                const formattedErrors = result.error.format();
-                setErrors({
-                    email: formattedErrors.email?._errors[0],
-                    password: formattedErrors.password?._errors[0],
-                });
-                return;
-            }
-
-            //todo signup 성공시
-        }
-
-        //todo signin일때 pw검증
-        if (pwInput === '') {
-            setErrors({ password: result.error?.format().password?._errors[0] });
-            return;
-        }
-
-        if (pwInput !== 'aa') {
-            setErrors({ password: '올바르지 않은 비밀번호입니다.' });
-            return;
-        }
-        redirect('/ledger');
+        //todo
     };
 
     //비밀번호 visibility 변경
@@ -82,6 +46,7 @@ export default function AuthModalLayout() {
         setIsPwVisible(newVisibility);
     };
 
+    //password visibility initialize
     useEffect(() => {
         if (pwInput === '') {
             setInputType('password');
@@ -89,15 +54,67 @@ export default function AuthModalLayout() {
         }
     }, [pwInput]);
 
+    //error state initialize
+    useEffect(() => {
+        setErrors({});
+    }, [pathname]);
+
+    //return pwfind modal
     if (pathname === pwFindDir) {
         return (
-            /*todo*/
+            /*todo also email verification*/
             <ModalDefault>
-                <div>pwfind</div>
+                <div className={'flex flex-col w-full h-full items-center justify-center'}>
+                    <p className={'text-2xl font-semibold'}>비밀번호를 까먹으셨나요?</p>
+                    <div className={'pt-10 flex flex-col gap-4 w-full items-start'}>
+                        <p className={'font-semibold text-sm'}>이메일 주소를 입력하세요</p>
+                        <form
+                            className={'w-full flex flex-col gap-6'}
+                            onSubmit={handleEmailVerificationSubmit}
+                            noValidate={true}
+                        >
+                            <div className={'relative'}>
+                                <FormInput
+                                    errors={errors}
+                                    placeholder={'email'}
+                                    type={'email'}
+                                    value={idInput}
+                                    onChangeAction={(e) => {
+                                        setIdInput(e.currentTarget.value);
+                                        if (errors.email) {
+                                            setErrors((prev) => ({
+                                                ...prev,
+                                                email: undefined,
+                                            }));
+                                        }
+                                    }}
+                                />
+                                {errors.email && (
+                                    <InvalidInputError>{errors.email}</InvalidInputError>
+                                )}
+                            </div>
+                            <Button
+                                action={() => {}}
+                                type={'submit'}
+                                className={'text-white bg-blue-400 oauth-nav'}
+                            >
+                                Password Reset Request
+                            </Button>
+                            <Button
+                                action={() => router.back()}
+                                type={'button'}
+                                className={''}
+                            >
+                                뒤로 가기
+                            </Button>
+                        </form>
+                    </div>
+                </div>
             </ModalDefault>
         );
     }
 
+    //return signin signup modal
     return (
         <ModalDefault>
             <div className={'flex flex-col h-full justify-center'}>
@@ -140,20 +157,22 @@ export default function AuthModalLayout() {
                     <hr className={'border w-2/5 border-gray-300 '} />
                 </div>
 
-                {/*form관련*/}
+                {/*todo form관련*/}
                 <div className={'flex flex-col gap-4'}>
                     {/*form*/}
                     <form
                         className={'w-full flex flex-col gap-6'}
-                        onSubmit={handleSubmit}
+                        onSubmit={handleContinueSubmit}
+                        noValidate={true}
                     >
                         {/* ID 입력 */}
                         <div className="relative">
-                            <input
-                                className={`oauth-nav border focus:outline-0 focus:ring ring-blue-100 w-full ${errors.email ? 'border-red-500' : 'border-gray-100'}`}
-                                placeholder="email"
+                            <FormInput
+                                errors={errors}
+                                placeholder={'email'}
+                                type={'email'}
                                 value={idInput}
-                                onChange={(e) => {
+                                onChangeAction={(e) => {
                                     setIdInput(e.currentTarget.value);
                                     if (errors.email) {
                                         setErrors((prev) => ({
@@ -170,24 +189,26 @@ export default function AuthModalLayout() {
 
                         {/* PW 입력 */}
                         <div className="relative">
-                            <input
+                            {/*pw 입력 인풋*/}
+                            <FormInput
                                 ref={pwInputRef}
-                                className={`oauth-nav border focus:outline-0 focus:ring ring-blue-100 w-full ${errors.password ? 'border-red-500' : 'border-gray-100'}`}
-                                placeholder="password"
+                                errors={errors}
+                                placeholder={'password'}
                                 type={inputType}
                                 value={pwInput}
-                                onChange={(e) => {
+                                onChangeAction={(e) => {
                                     setPwInput(e.currentTarget.value);
                                     if (errors.password) {
                                         setErrors((prev) => ({
                                             ...prev,
                                             password: undefined,
                                         }));
-                                        console.log(pwInput);
+
                                         if (pwInput === '') setInputType('password');
                                     }
                                 }}
                             />
+
                             {/*pw change visibility*/}
                             <Button
                                 action={onClickChangeVisibilityPW}
@@ -198,26 +219,28 @@ export default function AuthModalLayout() {
                                 {!isPwVisible || !pwInput ? <IoEyeOff /> : <IoEye />}
                             </Button>
 
-                            {/*account a11y*/}
-                            <Link
-                                className={'text-blue-500 absolute left-2 top-16'}
-                                href={isPathnameSignup ? signinDir : pwFindDir}
-                            >
-                                {isPathnameSignup ? '계정이 있으신가요?' : '비밀번호 찾기'}
-                            </Link>
-
                             {/*pw error*/}
                             {errors.password && (
                                 <InvalidInputError>{errors.password}</InvalidInputError>
                             )}
                         </div>
 
+                        {/*account a11y*/}
+                        <Link
+                            className={
+                                'text-blue-500 absolute left-12 2xs:top-[78%] xs:top-[91%] xs:text-sm'
+                            }
+                            href={isPathnameSignup ? signinDir : pwFindDir}
+                        >
+                            {isPathnameSignup ? '계정이 있으신가요?' : '비밀번호 찾기'}
+                        </Link>
+
                         {/*continue button*/}
                         <Button
                             type={'submit'}
                             action={() => {}}
                             className={
-                                'w-fit px-4 py-2 rounded-md bg-sky-200 ml-auto hover:cursor-pointer hover:bg-sky-300'
+                                'w-fit px-4 py-2 rounded-md text-white bg-blue-400 ml-auto hover:cursor-pointer hover:bg-sky-300'
                             }
                         >
                             Continue
@@ -226,6 +249,35 @@ export default function AuthModalLayout() {
                 </div>
             </div>
         </ModalDefault>
+    );
+}
+
+type formInputTypes = {
+    ref?: Ref<HTMLInputElement>;
+    errors: { email?: string; password?: string };
+    placeholder: 'email' | 'password';
+    type: 'email' | 'password' | 'text';
+    value: string;
+    onChangeAction: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export function FormInput({
+    ref = null,
+    errors,
+    placeholder,
+    type = 'email',
+    value,
+    onChangeAction,
+}: formInputTypes) {
+    return (
+        <input
+            ref={ref}
+            className={`oauth-nav border focus:outline-0 focus:ring ring-blue-100 w-full ${errors?.[placeholder] ? 'border-red-500' : 'border-gray-100'}`}
+            placeholder={placeholder}
+            type={type}
+            value={value}
+            onChange={onChangeAction}
+        />
     );
 }
 

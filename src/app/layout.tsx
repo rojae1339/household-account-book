@@ -20,7 +20,8 @@ export default function RootLayout({ children }: baseProps) {
                 className={'bg-sky-50 overflow-y-scroll px-6 py-4 max-w-full w-screen h-screen'}
                 cz-shortcut-listen="true"
             >
-                {children}
+                <Header />
+                <div className={'pt-14 w-full h-full'}>{children}</div>
             </body>
         </html>
     );
