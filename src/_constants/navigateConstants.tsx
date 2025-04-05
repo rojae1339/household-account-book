@@ -15,6 +15,8 @@ export const mainDir: string = '/';
 export const signinDir: string = '/signin';
 export const signupDir: string = '/signup';
 export const pwFindDir: string = '/pw-find';
+export const pwResetDir: string = '/pw-reset';
+export const tokenErrorDir: string = '/error';
 
 //main service dir
 export const homeDir: string = '/ledger';

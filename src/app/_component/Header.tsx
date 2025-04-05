@@ -8,8 +8,10 @@ import {
     mainDir,
     pagesNavObject,
     pwFindDir,
+    pwResetDir,
     signinDir,
     signupDir,
+    tokenErrorDir,
 } from '@/_constants/navigateConstants';
 import LogoIcon from '@/_component/LocoIcon';
 import Button from '@/_component/Button';
@@ -17,7 +19,19 @@ import Button from '@/_component/Button';
 export default function Header() {
     const pathname: string = usePathname();
 
-    const isAuthDirMatchingPath = [mainDir, signinDir, signupDir, pwFindDir].includes(pathname);
+    let isAuthDirMatchingPath = false;
+    const dirArr = [signinDir, signupDir, pwFindDir, tokenErrorDir, pwResetDir]; //mainDir '/'
+
+    for (const dir of dirArr) {
+        if (pathname === mainDir || pathname === '') {
+            isAuthDirMatchingPath = true;
+            break;
+        }
+        if (pathname.includes(dir)) {
+            isAuthDirMatchingPath = true;
+            break;
+        }
+    }
 
     return (
         <header
@@ -49,14 +63,16 @@ export function AuthHeader() {
         <div className={'w-full'}>
             <div className={'flex gap-6 px-6 w-full xs:w-auto xs:justify-end justify-between'}>
                 <Button
-                    action={() => router.push('/signin')}
+                    action={() => {
+                        router.push(signinDir);
+                    }}
                     className={'bg-blue-300/30 hover:cursor-pointer'}
                     type={'button'}
                 >
                     {<p>Login</p>}
                 </Button>
                 <Button
-                    action={() => router.push('/signup')}
+                    action={() => router.push(signupDir)}
                     className={'bg-blue-300/30 hover:cursor-pointer'}
                     type={'button'}
                 >
