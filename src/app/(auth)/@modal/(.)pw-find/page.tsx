@@ -5,8 +5,8 @@ import React, { useTransition } from 'react';
 import EmailInput from '@/app/(auth)/@modal/_component/EmailInput';
 import { redirect, useRouter } from 'next/navigation';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
-import { handlerPwFind } from '@/app/api/(users)/service/UserService';
-import { mainDir } from '@/_constants/navigateConstants';
+import { handlerPwFind } from '@/app/api/(users)/_service/UserService';
+import { authMainDir } from '@/_constants/navigateConstants';
 import PwFindLoading from '@/app/(auth)/pw-reset/loading';
 
 export default function PwFindModal() {
@@ -25,7 +25,7 @@ export default function PwFindModal() {
                 setEmailError(result.errors?.email);
             } else {
                 alert('이메일을 확인해주세요');
-                router.push(mainDir);
+                router.push(authMainDir);
                 return;
             }
         });

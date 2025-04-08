@@ -7,7 +7,7 @@ import Button from '@/_component/Button';
 import {
     forumDir,
     forumNavObject,
-    homeDir,
+    non_authMainDir,
     iconBackForward,
     ledgerNavObject,
     profileDir,
@@ -122,7 +122,7 @@ export default function Sidebar() {
 // 네비게이션 링크 모임 컴포넌트
 function SidebarNavigation({ pathname }: { pathname: string }) {
     const navMap: { dir: string; navObject: TNavObjectGroup }[] = [
-        { dir: homeDir, navObject: ledgerNavObject },
+        { dir: non_authMainDir, navObject: ledgerNavObject },
         { dir: forumDir, navObject: forumNavObject },
         { dir: profileDir, navObject: profileNavObject },
     ];

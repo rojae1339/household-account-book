@@ -9,22 +9,23 @@ import { FaFacebook, FaUserGraduate } from 'react-icons/fa';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiDeleteBin5Fill, RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
+import { BuiltInProviderType } from 'next-auth/providers/index';
 
 //auth dir
-export const mainDir: string = '/';
+export const authMainDir: string = '/';
 export const signinDir: string = '/signin';
 export const signupDir: string = '/signup';
 export const pwFindDir: string = '/pw-find';
 export const pwResetDir: string = '/pw-reset';
 export const tokenErrorDir: string = '/error';
 
-//main service dir
-export const homeDir: string = '/ledger';
-export const transactionHistoryDir: string = homeDir + '/history';
-export const transactionDashboardDir: string = homeDir + '/dashboard';
-export const expensesPerIncomeDir: string = homeDir + '/EPI';
-export const adviceAIDir: string = homeDir + '/advice';
-export const buyOrRentDir: string = homeDir + '/BoR';
+//main _service dir
+export const non_authMainDir: string = '/ledger';
+export const transactionHistoryDir: string = non_authMainDir + '/history';
+export const transactionDashboardDir: string = non_authMainDir + '/dashboard';
+export const expensesPerIncomeDir: string = non_authMainDir + '/EPI';
+export const adviceAIDir: string = non_authMainDir + '/advice';
+export const buyOrRentDir: string = non_authMainDir + '/BoR';
 
 export const forumDir: string = '/forum';
 export const tipForum: string = forumDir + '/tips';
@@ -50,7 +51,7 @@ export type TNavObjectGroup = Record<string, INavObject>;
 // 페이지 네비게이션
 export const pagesNavObject: TNavObjectGroup = {
     homeDir: {
-        url: homeDir,
+        url: non_authMainDir,
         icon: null,
         displayName: 'Home',
     },
@@ -89,7 +90,7 @@ const navIconSize: number = 20;
 // 거래 관련 네비게이션
 export const ledgerNavObject: TNavObjectGroup = {
     addTransaction: {
-        url: homeDir,
+        url: non_authMainDir,
         icon: <FaMoneyBillWave size={navIconSize} />,
         displayName: '거래입력',
     },
@@ -168,30 +169,51 @@ export const profileNavObject: TNavObjectGroup = {
     },
 };
 
+// OAUTH interface
+export interface IOauthObject extends INavObject {
+    hoverBgColor?: string;
+    provider: BuiltInProviderType;
+    callbackUrl?: string;
+}
+
+export type TOauthObjectGroup = Record<string, IOauthObject>;
+
 //OAuth dir
-export const OAuthNavObject: TNavObjectGroup = {
+export const OAuthNavObject: TOauthObjectGroup = {
     facebookOAuth: {
         url: '/',
         icon: <FaFacebook size={navIconSize} />,
         displayName: 'Facebook 계정으로 계속하기',
         bg_color: 'bg-blue-400 text-white',
+        hoverBgColor: 'hover:bg-blue-500',
+        provider: 'facebook',
+        callbackUrl: non_authMainDir,
     },
     kakaoOAuth: {
         url: thriftyForum,
         icon: <RiKakaoTalkFill size={navIconSize} />,
         displayName: '카카오 계정으로 계속하기',
         bg_color: 'bg-yellow-300',
+        hoverBgColor: 'hover:bg-yellow-400',
+        provider: 'kakao',
+        callbackUrl: non_authMainDir,
     },
     naverOAuth: {
         url: newsForum,
         icon: <SiNaver size={navIconSize} />,
         displayName: '네이버 계정으로 계속하기',
         bg_color: 'bg-green-300',
+        hoverBgColor: 'hover:bg-green-400',
+        provider: 'naver',
+        callbackUrl: non_authMainDir,
     },
     googleOAuth: {
         url: '/',
         icon: <FcGoogle size={navIconSize} />,
         displayName: '구글 계정으로 계속하기',
-        bg_color: '',
+        bg_color: 'bg-gray-50',
+        hoverBgColor: 'hover:bg-gray-200',
+        provider: 'google',
+        callbackUrl: non_authMainDir,
     },
 };

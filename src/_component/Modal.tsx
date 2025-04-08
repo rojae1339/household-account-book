@@ -5,7 +5,7 @@ import Button from '@/_component/Button';
 import { MdCloseFullscreen } from 'react-icons/md';
 import { usePathname, useRouter } from 'next/navigation';
 import { baseProps } from '@/_constants/props';
-import { homeDir, mainDir } from '@/_constants/navigateConstants';
+import { non_authMainDir, authMainDir } from '@/_constants/navigateConstants';
 
 const className = {
     base:
@@ -25,11 +25,11 @@ export default function ModalDefault({ children }: baseProps) {
                     'absolute  top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 bg-gray-400/60'
                 }
                 onClick={() => {
-                    if (pathname.includes(homeDir)) {
-                        router.push(homeDir);
+                    if (pathname.includes(non_authMainDir)) {
+                        router.push(non_authMainDir);
                         return;
                     }
-                    router.push(mainDir);
+                    router.push(authMainDir);
                 }}
             />
             <div className={className['base']}>
@@ -37,8 +37,8 @@ export default function ModalDefault({ children }: baseProps) {
                 <Button
                     type={undefined}
                     action={() => {
-                        if (pathname.includes(homeDir)) {
-                            router.push(homeDir);
+                        if (pathname.includes(non_authMainDir)) {
+                            router.push(non_authMainDir);
                             return;
                         }
                         router.back();

@@ -1,11 +1,11 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-    homeDir,
-    mainDir,
+    non_authMainDir,
+    authMainDir,
     pagesNavObject,
     pwFindDir,
     pwResetDir,
@@ -23,7 +23,7 @@ export default function Header() {
     const dirArr = [signinDir, signupDir, pwFindDir, tokenErrorDir, pwResetDir]; //mainDir '/'
 
     for (const dir of dirArr) {
-        if (pathname === mainDir || pathname === '') {
+        if (pathname === authMainDir || pathname === '') {
             isAuthDirMatchingPath = true;
             break;
         }
@@ -32,7 +32,6 @@ export default function Header() {
             break;
         }
     }
-
     return (
         <header
             className={
@@ -42,7 +41,7 @@ export default function Header() {
             {/*로고*/}
             <div className={`lg:pl-10 pl-4 xs:block hidden`}>
                 <Link
-                    href={isAuthDirMatchingPath ? mainDir : homeDir}
+                    href={isAuthDirMatchingPath ? authMainDir : non_authMainDir}
                     className={'flex flex-row items-center gap-4'}
                 >
                     <LogoIcon className={'text-2xl'} />

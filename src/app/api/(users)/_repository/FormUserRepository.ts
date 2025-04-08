@@ -1,31 +1,31 @@
-import { IFormUser, IUserResponse } from '@/_schema/userSchema';
+import { IFormUser, IFormUserResponse } from '@/_schema/userSchema';
 import { getDbConnection } from '@/_lib/db';
 
-export interface IUserRepository {
-    getUserByEmail: (email: string) => Promise<IUserResponse[]>;
-    getUserByToken: (verifyToken: string) => Promise<IUserResponse[]>;
-    addFormUser: (req: IFormUser) => Promise<IUserResponse[]>;
-    updateFormUserVerified: (userId: number) => Promise<IUserResponse[]>;
-    updatePassword: (userId: number, password: string) => Promise<IUserResponse[]>;
+export interface IFormUserRepository {
+    getUserByEmail: (email: string) => Promise<IFormUserResponse[]>;
+    getUserByToken: (verifyToken: string) => Promise<IFormUserResponse[]>;
+    addFormUser: (req: IFormUser) => Promise<IFormUserResponse[]>;
+    updateFormUserVerified: (userId: number) => Promise<IFormUserResponse[]>;
+    updatePassword: (userId: number, password: string) => Promise<IFormUserResponse[]>;
     changeVerificationTokenCode: (userId: number, token: string) => Promise<string>;
     deleteUserById: (id: number) => Promise<string>;
 }
 
 const db = getDbConnection();
 
-export const userRepository: IUserRepository = {
-    getUserByEmail: async (email: string): Promise<IUserResponse[]> => {
+export const formUserRepository: IFormUserRepository = {
+    getUserByEmail: async (email: string): Promise<IFormUserResponse[]> => {
         try {
             const con = await db;
             const [rows] = await con.execute('SELECT * FROM form_users WHERE email=?', [email]);
 
-            return rows as IUserResponse[]; // 명확하게 타입 지정
+            return rows as IFormUserResponse[]; // 명확하게 타입 지정
         } catch (e) {
             throw new Error(`에러 발생: ${e}`);
         }
     },
 
-    getUserByToken: async (verifyToken: string): Promise<IUserResponse[]> => {
+    getUserByToken: async (verifyToken: string): Promise<IFormUserResponse[]> => {
         try {
             const con = await db;
             const [rows] = await con.execute(
@@ -33,13 +33,13 @@ export const userRepository: IUserRepository = {
                 [verifyToken],
             );
 
-            return rows as IUserResponse[];
+            return rows as IFormUserResponse[];
         } catch (e) {
             throw new Error(`에러 발생: ${e}`);
         }
     },
 
-    addFormUser: async (req: IFormUser): Promise<IUserResponse[]> => {
+    addFormUser: async (req: IFormUser): Promise<IFormUserResponse[]> => {
         try {
             const con = await db;
             const [rows] = await con.execute(
@@ -54,7 +54,7 @@ export const userRepository: IUserRepository = {
                 ],
             );
 
-            return rows as IUserResponse[];
+            return rows as IFormUserResponse[];
         } catch (e) {
             throw new Error(`에러 발생: ${e}`);
         }
@@ -69,13 +69,13 @@ export const userRepository: IUserRepository = {
                 [userId],
             );
 
-            return rows as IUserResponse[];
+            return rows as IFormUserResponse[];
         } catch (e) {
             throw new Error(`에러 발생: ${e}`);
         }
     },
 
-    updatePassword: async (userId: number, password: string): Promise<IUserResponse[]> => {
+    updatePassword: async (userId: number, password: string): Promise<IFormUserResponse[]> => {
         try {
             const con = await db;
             const [rows] = await con.execute(`UPDATE form_users SET password = ? WHERE id = ?`, [
@@ -83,7 +83,7 @@ export const userRepository: IUserRepository = {
                 userId,
             ]);
 
-            return rows as IUserResponse[];
+            return rows as IFormUserResponse[];
         } catch (e) {
             throw new Error(`에러 발생: ${e}`);
         }

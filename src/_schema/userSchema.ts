@@ -1,3 +1,5 @@
+import { BuiltInProviderType } from 'next-auth/providers/index';
+
 interface IBaseUser {
     nickname: string;
     createdAt: Date;
@@ -15,7 +17,7 @@ export interface IFormUserRequest {
     password: string;
 }
 
-export interface IUserResponse {
+export interface IFormUserResponse {
     id: number;
     password?: string;
     email: string;
@@ -25,14 +27,15 @@ export interface IUserResponse {
     createdAt: Date;
 }
 
-enum OAuthProvider {
-    'google',
-    'facebook',
-    'kakao',
-    'naver',
+export interface IOAuthUser extends IBaseUser {
+    provider: string;
+    providerId: string;
 }
 
-export interface IOAuthUser extends IBaseUser {
-    provider: OAuthProvider;
-    provider_id: number;
+export interface IOauthUserResponse {
+    id: number;
+    provider: string;
+    providerId: string;
+    nickname: string;
+    createdAt: Date;
 }

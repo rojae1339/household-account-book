@@ -8,8 +8,8 @@ import ModalAlly from '@/app/(auth)/@modal/(signin-signup)/_component/ModalA11y'
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
 import { redirect, useRouter } from 'next/navigation';
 import FormSignupLoading from '@/app/(auth)/@modal/(signin-signup)/(.)signup/loading';
-import { mainDir } from '@/_constants/navigateConstants';
-import { handlerFormSignup } from '@/app/api/(users)/service/UserService';
+import { authMainDir } from '@/_constants/navigateConstants';
+import { handlerFormSignup } from '@/app/api/(users)/_service/UserService';
 
 export default function SignupModal() {
     const { setEmailError, setPasswordError, resetError } = useFormErrorStore();
@@ -28,7 +28,7 @@ export default function SignupModal() {
                 setPasswordError(result.errors?.password);
             } else {
                 alert('이메일 인증을 완료해주세요.');
-                router.push(mainDir);
+                router.push(authMainDir);
                 return;
             }
         });

@@ -11,7 +11,7 @@ const transport = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = async (email: string, veriToken: string) => {
-    const verificationLink = `${process.env.DOMAIN}/api/verify?token=${veriToken}`;
+    const verificationLink = `${process.env.NEXTAUTH_URL}/api/verify?token=${veriToken}`;
 
     const mailOptions = {
         from: process.env.GOOGLE_USER_EMAIL,
@@ -25,7 +25,7 @@ export const sendVerificationEmail = async (email: string, veriToken: string) =>
 };
 
 export const sendPwFindEmail = async (email: string, token: string) => {
-    const verificationLink = `${process.env.DOMAIN}/pw-reset?token=${token}`;
+    const verificationLink = `${process.env.NEXTAUTH_URL}/pw-reset?token=${token}`;
 
     const mailOptions = {
         from: process.env.GOOGLE_USER_EMAIL,

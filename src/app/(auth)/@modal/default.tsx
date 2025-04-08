@@ -1,7 +1,7 @@
 'use client';
 
 import { redirect, usePathname } from 'next/navigation';
-import { mainDir, pwResetDir, tokenErrorDir } from '@/_constants/navigateConstants';
+import { authMainDir, pwResetDir, tokenErrorDir } from '@/_constants/navigateConstants';
 
 export default function Default() {
     const s = usePathname();
@@ -10,5 +10,5 @@ export default function Default() {
         return null;
     }
 
-    redirect(mainDir);
+    redirect(authMainDir);
 }

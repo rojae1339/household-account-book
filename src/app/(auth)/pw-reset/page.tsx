@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState, useTransition } from 'react';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import { handlerPwFind, handlerPwReset } from '@/app/api/(users)/service/UserService';
+import { handlerPwFind, handlerPwReset } from '@/app/api/(users)/_service/UserService';
 import { ReadonlyURLSearchParams, redirect, useRouter, useSearchParams } from 'next/navigation';
-import { mainDir } from '@/_constants/navigateConstants';
+import { authMainDir } from '@/_constants/navigateConstants';
 
 // 재사용 컴포넌트 사용 안함
 // 단순한 이 역할만 할 페이지이기 때문에,
@@ -42,7 +42,7 @@ export default function PasswordResetPage() {
                     );
                 } else {
                     alert('성공적으로 초기화되었습니다. 다시 로그인 해주세요.');
-                    router.push(mainDir);
+                    router.push(authMainDir);
                 }
             } catch (err) {
                 console.error('Password reset error:', err);

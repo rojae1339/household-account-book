@@ -1,9 +1,9 @@
 import { getDbConnection } from '@/_lib/db';
-import { IUserResponse } from '@/_schema/userSchema';
+import { IFormUserResponse } from '@/_schema/userSchema';
 import { NextResponse } from 'next/server';
-import { homeDir, tokenErrorDir } from '@/_constants/navigateConstants';
-import { userRepository } from '@/app/api/(users)/_repository/UserRepository';
-import { generateVerificationToken } from '@/_constants/utils';
+import { non_authMainDir, tokenErrorDir } from '@/_constants/navigateConstants';
+import { formUserRepository } from '@/app/api/(users)/_repository/FormUserRepository';
+import { generateVerificationToken } from '@/_utils/dbUserUtils';
 
 export async function GET(req: Request) {
     const expiredMin: number = 3 * 60 * 1000; // 만료 시간 설정
@@ -17,7 +17,10 @@ export async function GET(req: Request) {
     //todo delete after test all
     if (token === '1') {
         return NextResponse.redirect(
-            new URL(`${homeDir}?message=${encodeMessage('Email Verification Succeed!')}`, req.url),
+            new URL(
+                `${non_authMainDir}?message=${encodeMessage('Email Verification Succeed!')}`,
+                req.url,
+            ),
         );
     }
 
@@ -29,7 +32,7 @@ export async function GET(req: Request) {
     }
 
     try {
-        const users = await userRepository.getUserByToken(token);
+        const users = await formUserRepository.getUserByToken(token);
 
         //token not matched error
         if (users.length === 0) {
@@ -59,7 +62,7 @@ export async function GET(req: Request) {
 
         //token expired error
         if (now > expiredTime) {
-            await userRepository.deleteUserById(user.id);
+            await formUserRepository.deleteUserById(user.id);
 
             return NextResponse.redirect(
                 new URL(
@@ -70,12 +73,15 @@ export async function GET(req: Request) {
         }
 
         //token successfully verified
-        await userRepository.updateFormUserVerified(user.id);
+        await formUserRepository.updateFormUserVerified(user.id);
         const re_token = generateVerificationToken();
-        await userRepository.changeVerificationTokenCode(user.id, re_token);
+        await formUserRepository.changeVerificationTokenCode(user.id, re_token);
 
         return NextResponse.redirect(
-            new URL(`${homeDir}?message=${encodeMessage('Email Verification Succeed!')}`, req.url),
+            new URL(
+                `${non_authMainDir}?message=${encodeMessage('Email Verification Succeed!')}`,
+                req.url,
+            ),
         );
     } catch (error) {
         return NextResponse.redirect(

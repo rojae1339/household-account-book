@@ -1,15 +1,20 @@
 'use server';
 
-import { IFormUser, IUserResponse } from '@/_schema/userSchema';
-import { generateShortNickname, generateVerificationToken, hashPassword } from '@/_constants/utils';
-import { userRepository } from '@/app/api/(users)/_repository/UserRepository';
+import { IFormUser, IFormUserResponse } from '@/_schema/userSchema';
+import {
+    generateShortNickname,
+    generateVerificationToken,
+    hashPassword,
+} from '@/_utils/dbUserUtils';
+import { formUserRepository } from '@/app/api/(users)/_repository/FormUserRepository';
 import { pwFindSchema, pwResetSchema, signinSchema, signupSchema } from '@/_schema/authSchema';
 import bcrypt from 'bcryptjs';
 import {
     sendPwFindEmail,
     sendVerificationEmail,
-} from '@/app/api/(users)/service/EmailVerification';
-import { ReadonlyURLSearchParams } from 'next/navigation';
+} from '@/app/api/(users)/_service/EmailVerification';
+import { sign } from '@/_utils/jwtUtils';
+import { cookies } from 'next/headers';
 
 export interface ISignupResponse {
     success: boolean;
@@ -17,9 +22,10 @@ export interface ISignupResponse {
         email?: string;
         password?: string;
     };
-    user?: IUserResponse;
+    user?: IFormUserResponse;
 }
 
+//로그인 핸들러
 export const handlerFormSignin = async (formData: FormData): Promise<ISignupResponse> => {
     try {
         const formEmail = formData.get('email');
@@ -51,9 +57,10 @@ export const handlerFormSignin = async (formData: FormData): Promise<ISignupResp
 
         const email = result.data.email;
         const password = result.data.password;
-        const userResponses = await userRepository.getUserByEmail(email);
+        const userResponses = await formUserRepository.getUserByEmail(email);
+        const user = userResponses[0];
 
-        if (userResponses[0] === undefined) {
+        if (user === undefined) {
             return {
                 success: false,
                 errors: {
@@ -62,7 +69,7 @@ export const handlerFormSignin = async (formData: FormData): Promise<ISignupResp
                 },
             };
         }
-        const isSame = await bcrypt.compare(password, userResponses[0].password ?? '');
+        const isSame = await bcrypt.compare(password, user.password ?? '');
 
         if (!isSame) {
             return {
@@ -74,8 +81,32 @@ export const handlerFormSignin = async (formData: FormData): Promise<ISignupResp
             };
         }
 
+        if (!user.isVerified) {
+            return {
+                success: false,
+                errors: {
+                    email: '이메일 인증이 필요합니다.',
+                },
+            };
+        }
+
+        //jwt
+        const token = await sign({
+            id: user.id,
+            nickname: user.nickname,
+            isFormUser: true,
+        });
+
+        // 쿠키에 저장
+        (await cookies()).set('token', token, {
+            httpOnly: true,
+            secure: true,
+            path: '/',
+        });
+
         return {
             success: true,
+            user: user,
         };
     } catch (e) {
         console.log(e);
@@ -89,6 +120,7 @@ export const handlerFormSignin = async (formData: FormData): Promise<ISignupResp
     }
 };
 
+//회원가입 핸들러
 export const handlerFormSignup = async (formData: FormData): Promise<ISignupResponse> => {
     try {
         const formEmail = formData.get('email');
@@ -121,7 +153,7 @@ export const handlerFormSignup = async (formData: FormData): Promise<ISignupResp
         const email = result.data.email;
         const password = result.data.password;
 
-        const existingUser = await userRepository.getUserByEmail(email);
+        const existingUser = await formUserRepository.getUserByEmail(email);
 
         if (existingUser.length > 0) {
             return {
@@ -138,7 +170,7 @@ export const handlerFormSignup = async (formData: FormData): Promise<ISignupResp
         const nickname = 'user-' + generateShortNickname();
         const createdAt = new Date();
 
-        const user: IFormUser = {
+        const newUser: IFormUser = {
             email: email,
             password: pw,
             isVerified: isVerified,
@@ -147,9 +179,26 @@ export const handlerFormSignup = async (formData: FormData): Promise<ISignupResp
             createdAt: createdAt,
         };
 
-        const userResponses = await userRepository.addFormUser(user);
+        const userResponses = await formUserRepository.addFormUser(newUser);
 
-        await sendVerificationEmail(user.email, user.verificationToken);
+        console.log(newUser);
+
+        await sendVerificationEmail(newUser.email, newUser.verificationToken);
+
+        if (newUser.isVerified) {
+            const token = await sign({
+                id: userResponses.insertId,
+                nickname: newUser.nickname,
+                isFormUser: true,
+            });
+
+            (await cookies()).set('token', token, {
+                httpOnly: true,
+                secure: true,
+                path: '/',
+            });
+        }
+
         return {
             success: true,
             user: userResponses[0],
@@ -193,7 +242,7 @@ export const handlerPwFind = async (formData: FormData) => {
 
         const email = result.data.email;
 
-        const userResponses = await userRepository.getUserByEmail(email);
+        const userResponses = await formUserRepository.getUserByEmail(email);
 
         if (userResponses[0] === undefined) {
             return {
@@ -264,7 +313,7 @@ export const handlerPwReset = async (formData: FormData, token: string) => {
         }
 
         //token validation
-        const userByToken = await userRepository.getUserByToken(token);
+        const userByToken = await formUserRepository.getUserByToken(token);
 
         if (userByToken[0] === undefined) {
             return {
@@ -279,8 +328,8 @@ export const handlerPwReset = async (formData: FormData, token: string) => {
 
         const user = userByToken[0];
 
-        await userRepository.updatePassword(user.id, pw);
-        await userRepository.changeVerificationTokenCode(user.id, re_token);
+        await formUserRepository.updatePassword(user.id, pw);
+        await formUserRepository.changeVerificationTokenCode(user.id, re_token);
 
         return {
             success: true,

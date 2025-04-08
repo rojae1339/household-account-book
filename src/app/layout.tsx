@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import Header from '@/app/_component/Header';
-import Sidebar from '@/app/_component/Sidebar';
 import { baseProps } from '@/_constants/props';
+import AuthProvider from '@/_component/AuthProvider';
 
 export const metadata: Metadata = {
     title: 'Hold House!',
@@ -20,8 +20,12 @@ export default function RootLayout({ children }: baseProps) {
                 className={'bg-sky-50 overflow-y-scroll px-6 py-4 max-w-full w-screen h-screen'}
                 cz-shortcut-listen="true"
             >
-                <Header />
-                <div className={'pt-14 w-full h-full'}>{children}</div>
+                <AuthProvider>
+                    <Header />
+                    <main>
+                        <div className={'pt-14 w-full h-full'}>{children}</div>
+                    </main>
+                </AuthProvider>
             </body>
         </html>
     );
