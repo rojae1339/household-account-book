@@ -4,8 +4,6 @@
 
 가계부 웹으로 자산관리 쉽게 하기
 
-# 모노레포?
-
 ## About Project
 
 Mar,07, 2025 - ??.??, 2025
@@ -72,9 +70,13 @@ export type TNavObjectGroup = Record<string, INavObject>;
    2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
 
 #### 홈/로그인/회원가입 페이지
+토큰을 통한 검증 및 어느 도메인이든 접속시 토큰 검증을 통해 <br>
+검증 성공하면 `/ledger`로 리다이렉트 <br>
+검증 실패시 `'/`로 리다이렉트
 
-ModalDefault에서 AuthModal로 하지않고
-layout에 지정해두고 자체적으로 분기처리
+JWT : `/src/_utils/jwtUtils.ts`, `middleware.ts`, `/src/app/api/auth/[..nextauth]/route.ts` <br>
+Oauth: `/src/app/api/auth/[..nextauth]/route.ts`, `/src/_component/AuthProvider.tsx`, `/src/_utils/oauth.ts`, `/src/app/api/(users)/_repository/OauthUserRepository.ts`<br>
+Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/FormUserRepository.ts`, `/src/app/api/(users)/_service/UserService.ts, EmailVerification.ts`, `/src/app/api/(users)/verify/route.ts`<br>
 
 ## Tech Stack
 

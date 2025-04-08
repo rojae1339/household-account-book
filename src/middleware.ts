@@ -19,7 +19,6 @@ export async function middleware(request: NextRequest) {
     if (token) {
         try {
             const payload = await verify(token);
-            console.log(payload.exp);
 
             // 인증 경로에 접근했고 토큰이 유효하면 /ledger로 리다이렉트
             if ([signinDir, signupDir, authMainDir, '/'].includes(pathname) && payload) {
@@ -30,9 +29,6 @@ export async function middleware(request: NextRequest) {
             const response = NextResponse.redirect(new URL(authMainDir, request.url));
             response.cookies.delete('token');
             return response;
-
-            // 다른 오류 처리 (예: 서명 오류 등)
-            console.error(error);
         }
     } else {
         // 토큰이 없는데 보호된 경로에 접근하면 /signin으로 리다이렉트

@@ -13,7 +13,7 @@ const JwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function sign(payload: JwtPayload) {
     const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 10; //
+    const exp = iat + 60 * 60; //원하는 expired시간
 
     return new SignJWT({ ...payload })
         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })

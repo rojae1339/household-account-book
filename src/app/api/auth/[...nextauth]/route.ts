@@ -32,6 +32,9 @@ const handler = NextAuth({
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
         }),
     ],
+    session: {
+        strategy: 'jwt',
+    },
     callbacks: {
         async signIn({ user, account }) {
             const provider = account?.provider;
