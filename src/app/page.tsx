@@ -1,8 +1,8 @@
 import { redirect, RedirectType } from 'next/navigation';
 import { authMainDir } from '@/_constants/navigateConstants';
-import RedirectIfAuthenticated from '@/_component/RedirectIfAuthenticated';
+import { searchParamsProps } from '@/_constants/props';
 
-export default async function HomePage({ searchParams }) {
+export default async function HomePage({ searchParams }: searchParamsProps) {
     const searchP = await searchParams;
 
     //todo oauth callbackUrl 에러 발생시 해결방법 몰라서 해당 url시에 리다이렉트

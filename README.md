@@ -69,7 +69,7 @@ export type TNavObjectGroup = Record<string, INavObject>;
    1. 일정 크기 이하로 화면이 줄면 햄버거 메뉴 추가
    2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
 
-#### 홈/로그인/회원가입 페이지
+#### Authentication/Authorization (홈/로그인/회원가입 페이지)
 토큰을 통한 검증 및 어느 도메인이든 접속시 토큰 검증을 통해 <br>
 검증 성공하면 `/ledger`로 리다이렉트 <br>
 검증 실패시 `'/`로 리다이렉트
@@ -102,8 +102,12 @@ Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/FormUserRe
 <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind%20CSS&logoColor=white"/>
 <!--zustand-->
 <img src="https://img.shields.io/badge/zustand-157272?style=for-the-badge&logo=&logoColor=white"/>
-<!--react-query-->
-<img src="https://img.shields.io/badge/React%20Query-FF4154?style=for-the-badge&logo=React%20Query&logoColor=white"/>
+
+
+next auth
+oauth
+jose
+
 리액트 폼 훅
 zod
 eslint
