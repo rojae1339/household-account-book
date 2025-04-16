@@ -2,7 +2,7 @@
 
 import InputModal from '@/app/(auth)/@modal/_component/_base/ModalInput';
 import { InvalidInputError } from '@/app/(auth)/@modal/_component/_base/ModalInvalidInputError';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
 import { useEmailInput } from '@/app/(auth)/@modal/_states/inputState';
 import { usePathname } from 'next/navigation';
@@ -10,9 +10,9 @@ import { usePathname } from 'next/navigation';
 //이메일 인풋 + 검증에러
 export default function EmailInput() {
     const pathname = usePathname();
+    const [emailInput, setEmailInput] = useState<string>('');
 
     const { errors, setEmailError, resetError } = useFormErrorStore();
-    const { emailInput, setEmailInput } = useEmailInput();
 
     //에러 초기화
     useEffect(() => {

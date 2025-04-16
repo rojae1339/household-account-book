@@ -12,9 +12,9 @@ import { usePathname } from 'next/navigation';
 
 export default function PasswordInput() {
     const pathname = usePathname();
+    const [passwordInput, setPasswordInput] = useState<string>('');
 
     const { errors, setPasswordError, resetError } = useFormErrorStore();
-    const { passwordInput, setPasswordInput } = usePasswordInput();
     const [inputType, setInputType] = useState<'password' | 'text'>('password');
     const [isPwVisible, setIsPwVisible] = useState<boolean>(false);
 

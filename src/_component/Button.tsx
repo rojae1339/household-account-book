@@ -7,18 +7,11 @@ type buttonProps = baseProps & {
     action?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     type: 'submit' | 'button' | 'reset' | undefined;
     className: string;
+    //todo
     disabled?: boolean;
 };
 
-//todo button style 지정
-
-export default function Button({
-    children,
-    action,
-    type,
-    className,
-    disabled = false,
-}: buttonProps) {
+export default function Button({ children, action, type, className, disabled }: buttonProps) {
     return (
         <button
             className={className}

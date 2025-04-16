@@ -90,6 +90,7 @@ export function NavHeader({ pathname }: { pathname: string }) {
             {/*서치바*/}
             <form className={'rounded-md w-2/5 sm:block hidden py-1'}>
                 <input
+                    type={'search'}
                     placeholder={'검색어를 입력하세요'}
                     className={`w-full py-2 px-4 rounded-md focus:outline-0 bg-blue-500 focus:bg-blue-600 focus:rounded-xs`}
                     onChange={(e) => setSearchBarInput(e.currentTarget.value)}

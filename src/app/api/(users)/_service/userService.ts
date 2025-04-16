@@ -1,20 +1,21 @@
 'use server';
 
-import { IFormUser, IFormUserResponse } from '@/_schema/userSchema';
+import { IFormUser } from '@/_schema/userSchema';
 import {
     generateShortNickname,
     generateVerificationToken,
     hashPassword,
 } from '@/_utils/dbUserUtils';
-import { formUserRepository } from '@/app/api/(users)/_repository/FormUserRepository';
+import { formUserRepository } from '@/app/api/(users)/_repository/formUserRepository';
 import { pwFindSchema, pwResetSchema, signinSchema, signupSchema } from '@/_schema/authSchema';
 import bcrypt from 'bcryptjs';
 import {
     sendPwFindEmail,
     sendVerificationEmail,
-} from '@/app/api/(users)/_service/EmailVerification';
+} from '@/app/api/(users)/_service/emailVerification';
 import { sign } from '@/_utils/jwtUtils';
 import { cookies } from 'next/headers';
+import { IFormUserResponse } from '@/app/api/(users)/_dto/userDtos';
 
 export interface ISignupResponse {
     success: boolean;
@@ -92,7 +93,7 @@ export const handlerFormSignin = async (formData: FormData): Promise<ISignupResp
 
         //jwt
         const token = await sign({
-            id: user.id,
+            id: user.userId,
             nickname: user.nickname,
             isFormUser: true,
         });
@@ -179,29 +180,12 @@ export const handlerFormSignup = async (formData: FormData): Promise<ISignupResp
             createdAt: createdAt,
         };
 
-        const userResponses = await formUserRepository.addFormUser(newUser);
-
-        console.log(newUser);
+        await formUserRepository.addFormUser(newUser);
 
         await sendVerificationEmail(newUser.email, newUser.verificationToken);
 
-        if (newUser.isVerified) {
-            const token = await sign({
-                id: userResponses.insertId,
-                nickname: newUser.nickname,
-                isFormUser: true,
-            });
-
-            (await cookies()).set('token', token, {
-                httpOnly: true,
-                secure: true,
-                path: '/',
-            });
-        }
-
         return {
             success: true,
-            user: userResponses[0],
         }; // 추가된 유저 정보 반환
     } catch (e) {
         console.log(e);
@@ -328,8 +312,8 @@ export const handlerPwReset = async (formData: FormData, token: string) => {
 
         const user = userByToken[0];
 
-        await formUserRepository.updatePassword(user.id, pw);
-        await formUserRepository.changeVerificationTokenCode(user.id, re_token);
+        await formUserRepository.updatePassword(user.userId, pw);
+        await formUserRepository.changeVerificationTokenCode(user.userId, re_token);
 
         return {
             success: true,

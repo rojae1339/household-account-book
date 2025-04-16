@@ -8,9 +8,9 @@ import { baseProps } from '@/_constants/props';
 export default function AfterSignupLayout({ children }: baseProps) {
     return (
         <>
-            <div className={'flex flex-row gap-4'}>
+            <div className={'flex flex-row gap-4 w-full h-full'}>
                 <Sidebar />
-                <main className={`md:pl-64 sm:pl-56 pl-10`}>{children}</main>
+                <main className={`md:pl-56 pl-10 w-full h-full`}>{children}</main>
             </div>
         </>
     );

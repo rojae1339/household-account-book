@@ -1,12 +1,11 @@
-import { getDbConnection } from '@/_lib/db';
-import { IFormUserResponse } from '@/_schema/userSchema';
 import { NextResponse } from 'next/server';
 import { non_authMainDir, tokenErrorDir } from '@/_constants/navigateConstants';
-import { formUserRepository } from '@/app/api/(users)/_repository/FormUserRepository';
+import { formUserRepository } from '@/app/api/(users)/_repository/formUserRepository';
 import { generateVerificationToken } from '@/_utils/dbUserUtils';
+import { sign } from '@/_utils/jwtUtils';
 
 export async function GET(req: Request) {
-    const expiredMin: number = 3 * 60 * 1000; // 만료 시간 설정
+    const expiredMin: number = 10 * 60 * 1000; // verificationToken 만료 시간 -> 원하는 분 * 60초 * 1000ms
     const { searchParams } = new URL(req.url);
     const token = searchParams.get('token');
 
@@ -34,19 +33,16 @@ export async function GET(req: Request) {
     try {
         const users = await formUserRepository.getUserByToken(token);
 
-        //token not matched error
+        //jwt not matched error
         if (users.length === 0) {
             return NextResponse.redirect(
-                new URL(
-                    `${tokenErrorDir}?message=${encodeMessage('Wrong token access.')}`,
-                    req.url,
-                ),
+                new URL(`${tokenErrorDir}?message=${encodeMessage('Wrong jwt access.')}`, req.url),
             );
         }
 
         const user = users[0];
 
-        //token already verified error
+        //jwt already verified error
         if (user.isVerified) {
             return NextResponse.redirect(
                 new URL(
@@ -57,32 +53,48 @@ export async function GET(req: Request) {
         }
 
         const now = new Date();
-        const createdAt = user.createdAt ? new Date(user.createdAt) : new Date();
-        const expiredTime = new Date(createdAt.getTime() + expiredMin);
+        const expiredTime = new Date(user.createdAt.getTime() + expiredMin);
 
-        //token expired error
+        //jwt expired error
         if (now > expiredTime) {
-            await formUserRepository.deleteUserById(user.id);
+            await formUserRepository.deleteUserById(user.userId);
 
             return NextResponse.redirect(
                 new URL(
-                    `${tokenErrorDir}?message=${encodeMessage('Expired token. Try again sign-up.')}.`,
+                    `${tokenErrorDir}?message=${encodeMessage('Expired jwt. Try again sign-up.')}.`,
                     req.url,
                 ),
             );
         }
 
-        //token successfully verified
-        await formUserRepository.updateFormUserVerified(user.id);
+        //jwt successfully verified
+        await formUserRepository.updateFormUserVerified(user.userId);
         const re_token = generateVerificationToken();
-        await formUserRepository.changeVerificationTokenCode(user.id, re_token);
+        await formUserRepository.changeVerificationTokenCode(user.userId, re_token);
 
-        return NextResponse.redirect(
+        const jwt = await sign({
+            id: user.userId,
+            nickname: user.nickname,
+            isFormUser: true,
+        });
+
+        // 쿠키에 저장하고 리다이렉트
+        const response = NextResponse.redirect(
             new URL(
                 `${non_authMainDir}?message=${encodeMessage('Email Verification Succeed!')}`,
                 req.url,
             ),
         );
+
+        // 쿠키 설정 - 토큰을 쿠키에 저장
+        response.cookies.set({
+            name: 'token',
+            value: jwt,
+            httpOnly: true,
+            secure: true,
+        });
+
+        return response;
     } catch (error) {
         return NextResponse.redirect(
             new URL(`${tokenErrorDir}?message=${encodeMessage('Server Error')}: ${error}`, req.url),

@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
         }
     } else {
         // 토큰이 없는데 보호된 경로에 접근하면 /signin으로 리다이렉트
-        if (['/ledger', profileDir, forumDir].some((path) => pathname.startsWith(path))) {
+        if ([non_authMainDir, profileDir, forumDir].some((path) => pathname.startsWith(path))) {
             return NextResponse.redirect(new URL(signinDir, request.url));
         }
     }

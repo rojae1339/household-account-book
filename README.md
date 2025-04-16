@@ -75,8 +75,8 @@ export type TNavObjectGroup = Record<string, INavObject>;
 검증 실패시 `'/`로 리다이렉트
 
 JWT : `/src/_utils/jwtUtils.ts`, `middleware.ts`, `/src/app/api/auth/[..nextauth]/route.ts` <br>
-Oauth: `/src/app/api/auth/[..nextauth]/route.ts`, `/src/_component/AuthProvider.tsx`, `/src/_utils/oauth.ts`, `/src/app/api/(users)/_repository/OauthUserRepository.ts`<br>
-Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/FormUserRepository.ts`, `/src/app/api/(users)/_service/UserService.ts, EmailVerification.ts`, `/src/app/api/(users)/verify/route.ts`<br>
+Oauth: `/src/app/api/auth/[..nextauth]/route.ts`, `/src/_component/AuthProvider.tsx`, `/src/_utils/oauth.ts`, `/src/app/api/(users)/_repository/oauthUserRepository.ts`<br>
+Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/formUserRepository.ts`, `/src/app/api/(users)/_service/userService.ts, emailVerification.ts`, `/src/app/api/(users)/verify/route.ts`<br>
 
 ## Tech Stack
 

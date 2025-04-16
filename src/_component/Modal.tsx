@@ -10,7 +10,7 @@ import { non_authMainDir, authMainDir } from '@/_constants/navigateConstants';
 const className = {
     base:
         'flex justify-center absolute 2xs:top-6/12 xs:top-6/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ' +
-        'bg-white 2xs:w-full h-2/3 min-h-[200px] xs:w-3/6 rounded-md px-5 py-6 2xs:min-w-2xs xs:min-w-lg xs:min-w-xs' +
+        'bg-white 2xs:w-full h-2/3 xs:h-3/4 2xs:h-full min-h-[200px] xs:w-3/6 rounded-md px-5 py-6 2xs:min-w-2xs xs:min-w-lg xs:min-w-xs' +
         '',
 };
 

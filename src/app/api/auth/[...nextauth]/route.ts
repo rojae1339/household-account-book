@@ -5,7 +5,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import { authMainDir, non_authMainDir } from '@/_constants/navigateConstants';
 import { sign } from '@/_utils/jwtUtils';
-import { oauthUserRepository } from '@/app/api/(users)/_repository/OauthUserRepository';
+import { oauthUserRepository } from '@/app/api/(users)/_repository/oauthUserRepository';
 import { IOAuthUser } from '@/_schema/userSchema';
 import { generateShortNickname } from '@/_utils/dbUserUtils';
 import { cookies } from 'next/headers';
@@ -62,11 +62,9 @@ const handler = NextAuth({
                 const finalUser =
                     existingUser ?? (await oauthUserRepository.addOauthUser(oauthUser));
 
-                console.log(finalUser);
-
                 // JWT 발급
                 const token = await sign({
-                    id: finalUser.insertId,
+                    id: finalUser.userId,
                     nickname: oauthUser.nickname,
                     provider: oauthUser.provider,
                 });

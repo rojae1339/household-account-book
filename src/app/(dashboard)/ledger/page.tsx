@@ -1,4 +1,5 @@
-import MessageModal from '@/app/(dashboard)/ledger/_component/messageModal';
+import MessageModal from '@/app/(dashboard)/ledger/_component/MessageModal';
+import TransactionForm from '@/app/(dashboard)/ledger/_component/TransactionForm';
 
 export default async function LedgerPage({
     searchParams,
@@ -15,7 +16,9 @@ export default async function LedgerPage({
     return (
         <>
             {decodedMessage ? <MessageModal message={decodedMessage} /> : null}
-            <div className={'h-[10000px]'}>home</div>
+            <div className={'w-full h-full'}>
+                <TransactionForm />
+            </div>
         </>
     );
 }

@@ -5,7 +5,7 @@ import React, { useTransition } from 'react';
 import EmailInput from '@/app/(auth)/@modal/_component/EmailInput';
 import { redirect, useRouter } from 'next/navigation';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
-import { handlerPwFind } from '@/app/api/(users)/_service/UserService';
+import { handlerPwFind } from '@/app/api/(users)/_service/userService';
 import { authMainDir } from '@/_constants/navigateConstants';
 import PwFindLoading from '@/app/(auth)/pw-reset/loading';
 

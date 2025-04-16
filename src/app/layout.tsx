@@ -17,12 +17,12 @@ export default function RootLayout({ children }: baseProps) {
             suppressHydrationWarning={true}
         >
             <body
-                className={'bg-sky-50 overflow-y-scroll px-6 py-4 max-w-full w-screen h-screen'}
+                className={'bg-sky-50 overflow-y-scroll px-6 py-4 max-w-full w-screen h-full'}
                 cz-shortcut-listen="true"
             >
                 <AuthProvider>
                     <Header />
-                    <main>
+                    <main className={'w-full h-full'}>
                         <div className={'pt-14 w-full h-full'}>{children}</div>
                     </main>
                 </AuthProvider>

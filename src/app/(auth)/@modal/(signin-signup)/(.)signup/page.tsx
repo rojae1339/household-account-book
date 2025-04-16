@@ -9,7 +9,7 @@ import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
 import { redirect, useRouter } from 'next/navigation';
 import FormSignupLoading from '@/app/(auth)/@modal/(signin-signup)/(.)signup/loading';
 import { authMainDir } from '@/_constants/navigateConstants';
-import { handlerFormSignup } from '@/app/api/(users)/_service/UserService';
+import { handlerFormSignup } from '@/app/api/(users)/_service/userService';
 
 export default function SignupModal() {
     const { setEmailError, setPasswordError, resetError } = useFormErrorStore();
