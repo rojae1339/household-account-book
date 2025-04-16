@@ -152,7 +152,7 @@ export default function SimpleTransaction({
                                     <p className="text-sm text-gray-600">{makeDay(date)}</p>
                                 </div>
                             </div>
-                            <div className="flex justify-between flex-1">
+                            <div className="flex justify-between xl:flex-1 flex-none">
                                 <p className="w-40 truncate">{t.title}</p>
                                 <p className="w-32 text-right">
                                     {makePriceWithComma(Number(t.price))}
