@@ -1,9 +1,14 @@
+'use client';
+
 import { ITransactionResponse } from '@/app/api/(ledger)/_dto/transactionDtos';
-import FetchTransactionSkeleton from '@/app/(dashboard)/ledger/loading';
 import { makePriceWithComma } from '@/app/(dashboard)/ledger/_utils/priceUtils';
-import { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 import Button from '@/_component/Button';
 import Pagination from '@/app/_component/Pagination';
+import { FaRegEdit } from 'react-icons/fa';
+import { BsRecycle } from 'react-icons/bs';
+import { IoTrashBinOutline } from 'react-icons/io5';
+import FetchTransactionSkeleton from '@/app/(dashboard)/ledger/loading';
 
 const makeDay = (date: Date) => {
     const day = date.getDay();
@@ -32,29 +37,36 @@ function changeSetVisibility(prev: Set<number>, id: number) {
     return newSet;
 }
 
+interface IEditIcon {
+    key: string;
+    icon: ReactElement;
+    action: () => void;
+}
+
+//todo 각 버튼 action만들기/ api 라우트로 하기
+const editIconList: IEditIcon[] = [
+    {
+        key: 'editIcon_edit',
+        icon: <FaRegEdit />,
+        action: () => {},
+    },
+    { key: 'editIcon_cycle', icon: <BsRecycle />, action: () => {} },
+    { key: 'editIcon_bin', icon: <IoTrashBinOutline />, action: () => {} },
+];
+
 export default function SimpleTransaction({
-    transactions,
     isWidthEnough,
     isRangeDate,
+    transactions,
 }: {
-    transactions: ITransactionResponse[] | null;
     isWidthEnough: boolean;
     isRangeDate: boolean;
+    transactions: ITransactionResponse[];
 }) {
     const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
     const [currentPage, setCurrentPage] = useState<number>(1);
     const isDragging = useRef(false);
     const dragSelected = useRef<Set<number>>(new Set());
-
-    //data fetching loading
-    if (transactions === null) {
-        return <FetchTransactionSkeleton />;
-    }
-
-    //data not found error
-    if (transactions.length === 0) {
-        return <></>;
-    }
 
     // 페이지네이션 계산
     const ITEMS_PER_PAGE = 30;
@@ -64,7 +76,12 @@ export default function SimpleTransaction({
     const visibleTransactions = transactions.slice(startIndex, endIndex);
 
     //마우스 클릭후 드래그 시 selectedId변경
-    const handleMouseDown = (id: number) => {
+    const handleMouseDown = (e: React.MouseEvent, id: number) => {
+        // 클릭된 요소가 체크박스인 경우 드래그 이벤트를 시작하지 않음
+        if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') {
+            return;
+        }
+
         isDragging.current = true;
         dragSelected.current = new Set([id]);
         setSelectedIds((prev) => {
@@ -92,12 +109,6 @@ export default function SimpleTransaction({
         setSelectedIds((prev) => {
             return changeSetVisibility(prev, id);
         });
-    };
-
-    // 페이지 이동 함수
-    const handlePageChange = (page: number) => {
-        if (page < 1 || page > totalPages) return;
-        setCurrentPage(page);
     };
 
     //width가 enough하지 않을때 simpleTransaction 컴포넌트
@@ -134,12 +145,13 @@ export default function SimpleTransaction({
                     return (
                         <div
                             key={t.id}
-                            onMouseDown={() => handleMouseDown(t.id)}
+                            onMouseDown={(e) => handleMouseDown(e, t.id)}
                             onMouseEnter={() => handleMouseEnter(t.id)}
                             className={`flex gap-6 w-full px-2 border-b py-2 border-gray-400 transition-colors duration-100 rounded-md ${
                                 isSelected ? 'bg-yellow-100' : 'bg-transparent'
                             } select-none`}
                         >
+                            {/*체크박스/날짜 및 요일*/}
                             <div className="flex items-center gap-4">
                                 <input
                                     className="w-4 h-4"
@@ -152,22 +164,41 @@ export default function SimpleTransaction({
                                     <p className="text-sm text-gray-600">{makeDay(date)}</p>
                                 </div>
                             </div>
+
+                            {/*거래 내용 및 금액*/}
                             <div className="flex justify-between xl:flex-1 flex-none">
                                 <p className="w-40 truncate">{t.title}</p>
                                 <p className="w-32 text-right">
                                     {makePriceWithComma(Number(t.price))}
                                 </p>
                             </div>
-                            <div className="flex lg:gap-10 md:gap-4 flex-1 min-w-fit">
+
+                            {/*거래 타입 및 거래 내역 타입*/}
+                            <div className="flex lg:gap-10 md:gap-4 min-w-fit">
                                 <div className="flex items-center gap-2">
                                     <p className="text-xs">
                                         {t.transactionType === 'INCOME' ? '🟢' : '🔴'}
                                     </p>
                                     <p>{t.transactionType === 'INCOME' ? '수입' : '지출'}</p>
                                 </div>
-                                <p>{t.displayName}</p>
+                                <p className={'w-20'}>{t.displayName}</p>
                             </div>
-                            ㅁㄴㅇ
+
+                            {/*edit 아이콘*/}
+                            {/*todo 수정 삭제 재입력(다중선택 혹은 단일 선택후 클릭시 바로 post요청 같은걸로 오늘날짜로)*/}
+                            <div className={'flex-1 flex text-xl max-w-80'}>
+                                {editIconList.map((o) => {
+                                    return (
+                                        <Button
+                                            key={o.key}
+                                            type={'button'}
+                                            className={'flex-1'}
+                                        >
+                                            {o.icon}
+                                        </Button>
+                                    );
+                                })}
+                            </div>
                         </div>
                     );
                 })}
@@ -178,7 +209,10 @@ export default function SimpleTransaction({
                         currentPage={currentPage}
                         totalPages={totalPages}
                         maxPageButtons={5} // 원하는 페이지 버튼 개수 설정
-                        onPageChange={handlePageChange}
+                        onPageChange={(page: number) => {
+                            if (totalPages < page || page < 1) return;
+                            setCurrentPage(page);
+                        }}
                     />
                 )}
 

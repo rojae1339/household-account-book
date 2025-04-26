@@ -6,7 +6,7 @@ import { baseProps } from '@/_constants/props';
 type buttonProps = baseProps & {
     action?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     type: 'submit' | 'button' | 'reset' | undefined;
-    className: string;
+    className?: string;
     //todo
     disabled?: boolean;
 };

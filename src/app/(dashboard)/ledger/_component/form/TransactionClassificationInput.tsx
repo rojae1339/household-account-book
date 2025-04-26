@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { checkMouseOnComponent } from '@/app/(dashboard)/_utils/checkMouseOnComponent';
 import { useMouseLeaveClose } from '@/app/(dashboard)/_utils/useMouseLeaveCheck';
 import { AnimatePresence, motion } from 'framer-motion';
-import InputWithModal from '@/app/(dashboard)/ledger/_component/InputWithModal';
+import InputWithModal from '@/app/(dashboard)/ledger/_component/form/InputWithModal';
 
 const getTransactionClassification = () => {
     return [

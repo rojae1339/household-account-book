@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Big from 'big.js';
 import { makePriceWithComma } from '@/app/(dashboard)/ledger/_utils/priceUtils';
-import InputWithModal from '@/app/(dashboard)/ledger/_component/InputWithModal';
+import InputWithModal from '@/app/(dashboard)/ledger/_component/form/InputWithModal';
 
 // 천 단위 콤마
 const getPriceList = () => {
@@ -34,7 +34,7 @@ export default function PriceInput() {
             showList={showPriceList}
             setShowList={setShowPriceList}
             inputStyle={'common'}
-            motionDivStyle={'common'}
+            motionDivStyle={'topPositionFixed'}
             listRef={priceListRef}
             onMouseEnter={() => setShowPriceList(true)}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {

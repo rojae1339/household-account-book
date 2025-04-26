@@ -22,9 +22,7 @@ export const getAllTransactionsByUserId = async () => {
             return Error('존재하지 않는 유저입니다.');
         }
 
-        const transactions = await transactionRepository.findAllTransactionWithUserId(userId);
-
-        return transactions;
+        return await transactionRepository.findAllTransactionWithUserId(userId);
     } catch (e) {
         console.log('트랜잭션 가져오기 에러발생!: ', e);
         throw new Error('트랜잭션 가져오기 에러발생!');

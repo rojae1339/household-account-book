@@ -1,9 +1,17 @@
 // 페이지네이션 컴포넌트
+import Button from '@/_component/Button';
+
 type props = {
     currentPage: number;
     totalPages: number;
     maxPageButtons: number;
     onPageChange: (page: number) => void;
+};
+
+type paginationButtonProps = {
+    action: () => void;
+    title: string;
+    disabled: boolean;
 };
 
 //todo 작동원리 파악하기
@@ -13,6 +21,23 @@ export default function Pagination({
     maxPageButtons,
     onPageChange,
 }: props) {
+    const PaginationButton = ({ action, title, disabled }: paginationButtonProps) => {
+        return (
+            <Button
+                type={'button'}
+                action={action}
+                disabled={disabled}
+                className={`px-3 py-1 rounded ${
+                    disabled
+                        ? 'bg-gray-100 text-gray-400 cursor-default'
+                        : 'bg-gray-200 hover:bg-gray-300'
+                }`}
+            >
+                {title}
+            </Button>
+        );
+    };
+
     // 페이지 번호 영역 계산
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
     const endOffset = startPage + maxPageButtons - 1;
@@ -28,9 +53,10 @@ export default function Pagination({
     const pageButtons = [];
     for (let i = startPage; i <= endPage; i++) {
         pageButtons.push(
-            <button
+            <Button
                 key={i}
-                onClick={() => onPageChange(i)}
+                type={'button'}
+                action={() => onPageChange(i)}
                 disabled={i === currentPage}
                 className={`w-8 h-8 flex items-center justify-center rounded ${
                     i === currentPage
@@ -39,7 +65,7 @@ export default function Pagination({
                 }`}
             >
                 {i}
-            </button>,
+            </Button>,
         );
     }
 
@@ -56,59 +82,35 @@ export default function Pagination({
     return (
         <div className="w-full flex justify-center items-center mt-4 gap-2">
             {/* 처음 버튼 */}
-            <button
-                onClick={() => onPageChange(1)}
+            <PaginationButton
+                action={() => onPageChange(1)}
                 disabled={currentPage === 1}
-                className={`px-3 py-1 rounded ${
-                    currentPage === 1
-                        ? 'bg-gray-100 text-gray-400 cursor-default'
-                        : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-            >
-                처음
-            </button>
+                title={'처음'}
+            />
 
             {/* 이전 버튼 */}
-            <button
-                onClick={() => onPageChange(currentPage - 1)}
+            <PaginationButton
+                action={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-3 py-1 rounded ${
-                    currentPage === 1
-                        ? 'bg-gray-100 text-gray-400 cursor-default'
-                        : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-            >
-                이전
-            </button>
+                title={'이전'}
+            />
 
             {/* 페이지 번호 버튼 */}
             {pageButtons}
 
             {/* 다음 버튼 */}
-            <button
-                onClick={() => onPageChange(currentPage + 1)}
+            <PaginationButton
+                action={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded ${
-                    currentPage === totalPages
-                        ? 'bg-gray-100 text-gray-400 cursor-default'
-                        : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-            >
-                다음
-            </button>
+                title={'다음'}
+            />
 
             {/* 마지막 버튼 */}
-            <button
-                onClick={() => onPageChange(totalPages)}
+            <PaginationButton
+                action={() => onPageChange(totalPages)}
                 disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded ${
-                    currentPage === totalPages
-                        ? 'bg-gray-100 text-gray-400 cursor-default'
-                        : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-            >
-                마지막
-            </button>
+                title={'마지막'}
+            />
         </div>
     );
 }

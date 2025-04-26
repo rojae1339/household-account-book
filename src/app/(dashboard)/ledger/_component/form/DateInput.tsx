@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { checkMouseOnComponent } from '@/app/(dashboard)/_utils/checkMouseOnComponent';
 import { useMouseLeaveClose } from '@/app/(dashboard)/_utils/useMouseLeaveCheck';
 import { AnimatePresence, motion } from 'framer-motion';
-import InputWithModal from '@/app/(dashboard)/ledger/_component/InputWithModal';
+import InputWithModal from '@/app/(dashboard)/ledger/_component/form/InputWithModal';
 
 // 지난 7일 날짜 배열 생성
 const getLastSevenDays = (today: Date) => {
@@ -55,7 +55,7 @@ export default function DateInput({ title, isRangeDate }: { title: string; isRan
             maxDate={maxDate}
             containerRef={containerRef}
             inputStyle={'common'}
-            motionDivStyle={'common'}
+            motionDivStyle={'topPositionFixed'}
             name={'date'}
             value={selectedDate}
             showList={showCurrentDateList}

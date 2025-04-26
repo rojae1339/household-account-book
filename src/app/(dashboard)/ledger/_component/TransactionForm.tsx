@@ -1,53 +1,15 @@
 'use client';
 
-import DateInput from '@/app/(dashboard)/ledger/_component/DateInput';
-import ItemInput from '@/app/(dashboard)/ledger/_component/ItemInput';
-import PriceInput from '@/app/(dashboard)/ledger/_component/PriceInput';
-import TransactionTypeSelectBox from '@/app/(dashboard)/ledger/_component/TransactionTypeSelectBox';
-import { useEffect, useRef, useState } from 'react';
-import TransactionClassificationInput from '@/app/(dashboard)/ledger/_component/TransactionClassificationInput';
-import SimpleTransaction from '@/app/(dashboard)/ledger/_component/SimpleTransac';
-import { ITransactionResponse } from '@/app/api/(ledger)/_dto/transactionDtos';
-import { notFound } from 'next/navigation';
+import DateInput from '@/app/(dashboard)/ledger/_component/form/DateInput';
+import ItemInput from '@/app/(dashboard)/ledger/_component/form/ItemInput';
+import PriceInput from '@/app/(dashboard)/ledger/_component/form/PriceInput';
+import TransactionTypeSelectBox from '@/app/(dashboard)/ledger/_component/form/TransactionTypeSelectBox';
+import { useRef } from 'react';
+import TransactionClassificationInput from '@/app/(dashboard)/ledger/_component/form/TransactionClassificationInput';
 import Button from '@/_component/Button';
 
-export default function TransactionForm() {
-    const enoughWidth = 800;
-    const [isWidthEnough, setIsWidthEnough] = useState<boolean>(true);
+export default function TransactionForm({ isWidthEnough }: { isWidthEnough: boolean }) {
     const formRef = useRef<HTMLFormElement>(null);
-
-    const [transactions, setTransactions] = useState<ITransactionResponse[] | null>(null);
-
-    useEffect(() => {
-        const handle = () => {
-            const width = formRef.current?.offsetWidth ?? 0;
-            setIsWidthEnough(width >= enoughWidth);
-        };
-
-        handle(); // 최초 실행
-        window.addEventListener('resize', handle);
-        return () => window.removeEventListener('resize', handle);
-    }, [isWidthEnough]);
-
-    //transactions fetch
-    useEffect(() => {
-        const fetchTransaction = async () => {
-            try {
-                const res = await fetch('/api/transactions');
-                if (!res.ok) {
-                    notFound();
-                }
-
-                const data = await res.json();
-
-                setTransactions(data);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-
-        fetchTransaction();
-    }, []);
 
     return (
         <div className={'flex flex-col gap-5 w-full min-w-[260px]'}>
@@ -83,13 +45,6 @@ export default function TransactionForm() {
                     </div>
                 </form>
             </div>
-
-            {/*todo 단순거래내역*/}
-            <SimpleTransaction
-                isWidthEnough={isWidthEnough}
-                transactions={transactions}
-                isRangeDate={false}
-            />
         </div>
     );
 }

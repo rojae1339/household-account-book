@@ -1,5 +1,9 @@
 import MessageModal from '@/app/(dashboard)/ledger/_component/MessageModal';
 import TransactionForm from '@/app/(dashboard)/ledger/_component/TransactionForm';
+import { Suspense } from 'react';
+import FetchTransactionSkeleton from '@/app/(dashboard)/ledger/loading';
+import SimpleTransaction from '@/app/(dashboard)/ledger/_component/SimpleTransac';
+import LedgerTransactionInside from '@/app/(dashboard)/ledger/_component/LedgerTransactionInside';
 
 export default async function LedgerPage({
     searchParams,
@@ -17,7 +21,7 @@ export default async function LedgerPage({
         <>
             {decodedMessage ? <MessageModal message={decodedMessage} /> : null}
             <div className={'w-full h-full'}>
-                <TransactionForm />
+                <LedgerTransactionInside />
             </div>
         </>
     );

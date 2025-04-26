@@ -4,7 +4,7 @@ import { baseProps } from '@/_constants/props';
 import { useMouseLeaveClose } from '@/app/(dashboard)/_utils/useMouseLeaveCheck';
 
 type TInputStyleKey = 'common' | 'short' | 'notDefinedWidth';
-type IMotionDivStyleKey = 'common' | 'topPositionFixed' | 'overflow';
+type IMotionDivStyleKey = /*'common'*/ 'topPositionFixed' | 'overflow';
 
 type props = baseProps & {
     title: string;
@@ -54,11 +54,10 @@ export default function InputWithModal({
     };
 
     const motionDivStyleMap: Record<IMotionDivStyleKey, string> = {
-        common: 'absolute top-full left-0 mt-1 bg-white shadow-md rounded-md p-2 z-10 w-full',
         topPositionFixed:
             'absolute top-16 left-0 mt-1 bg-white shadow-md rounded-md p-2 z-10 w-full',
         overflow:
-            'absolute flex flex-col w-full h-40 overflow-y-scroll bg-white top-18 rounded-md shadow-md snap-y snap-mandatory',
+            'absolute flex flex-col w-full h-40 overflow-y-scroll bg-white top-17 rounded-md shadow-md snap-y snap-mandatory',
     };
 
     useMouseLeaveClose({
