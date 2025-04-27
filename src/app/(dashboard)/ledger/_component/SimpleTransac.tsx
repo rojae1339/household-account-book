@@ -3,12 +3,11 @@
 import { ITransactionResponse } from '@/app/api/(ledger)/_dto/transactionDtos';
 import { makePriceWithComma } from '@/app/(dashboard)/ledger/_utils/priceUtils';
 import React, { ReactElement, useRef, useState } from 'react';
-import Button from '@/_component/Button';
 import Pagination from '@/app/_component/Pagination';
 import { FaRegEdit } from 'react-icons/fa';
 import { BsRecycle } from 'react-icons/bs';
 import { IoTrashBinOutline } from 'react-icons/io5';
-import FetchTransactionSkeleton from '@/app/(dashboard)/ledger/loading';
+import { EditingModal } from '@/app/(dashboard)/ledger/_component/EditingModal';
 
 const makeDay = (date: Date) => {
     const day = date.getDay();
@@ -40,19 +39,23 @@ function changeSetVisibility(prev: Set<number>, id: number) {
 interface IEditIcon {
     key: string;
     icon: ReactElement;
-    action: () => void;
 }
-
-//todo 각 버튼 action만들기/ api 라우트로 하기
 const editIconList: IEditIcon[] = [
     {
         key: 'editIcon_edit',
         icon: <FaRegEdit />,
-        action: () => {},
     },
-    { key: 'editIcon_cycle', icon: <BsRecycle />, action: () => {} },
-    { key: 'editIcon_bin', icon: <IoTrashBinOutline />, action: () => {} },
+    {
+        key: 'editIcon_recycle',
+        icon: <BsRecycle />,
+    },
+    {
+        key: 'editIcon_delete',
+        icon: <IoTrashBinOutline />,
+    },
 ];
+
+export type modalType = 'edit' | 'recycle' | 'delete' | '';
 
 export default function SimpleTransaction({
     isWidthEnough,
@@ -63,10 +66,14 @@ export default function SimpleTransaction({
     isRangeDate: boolean;
     transactions: ITransactionResponse[];
 }) {
-    const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+    const [selectedTransaction, setSelectedTransaction] = useState<
+        ITransactionResponse | undefined
+    >(undefined);
+    const [selectedTransactionsIds, setSelectedTransactionsIds] = useState<Set<number>>(new Set());
     const [currentPage, setCurrentPage] = useState<number>(1);
     const isDragging = useRef(false);
     const dragSelected = useRef<Set<number>>(new Set());
+    const [showModalType, setShowModalType] = useState<modalType>('');
 
     // 페이지네이션 계산
     const ITEMS_PER_PAGE = 30;
@@ -84,7 +91,7 @@ export default function SimpleTransaction({
 
         isDragging.current = true;
         dragSelected.current = new Set([id]);
-        setSelectedIds((prev) => {
+        setSelectedTransactionsIds((prev) => {
             return changeSetVisibility(prev, id);
         });
     };
@@ -93,7 +100,7 @@ export default function SimpleTransaction({
     const handleMouseEnter = (id: number) => {
         if (!isDragging.current) return;
         dragSelected.current.add(id);
-        setSelectedIds((prev) => {
+        setSelectedTransactionsIds((prev) => {
             return changeSetVisibility(prev, id);
         });
     };
@@ -106,12 +113,12 @@ export default function SimpleTransaction({
 
     //선택된 transactions 들을 재클릭시 해제하거나, 클릭하기
     const toggleSelection = (id: number) => {
-        setSelectedIds((prev) => {
+        setSelectedTransactionsIds((prev) => {
             return changeSetVisibility(prev, id);
         });
     };
 
-    //width가 enough하지 않을때 simpleTransaction 컴포넌트
+    //todo 너비에 따른 컴포넌트
     if (!isWidthEnough) {
         return <div>todo</div>;
     }
@@ -125,22 +132,22 @@ export default function SimpleTransaction({
                 <p className="">거래 내역</p>
 
                 {/*일괄 선택 해제 버튼*/}
-                <Button
+                <button
                     type={'button'}
                     className={`flex items-center gap-4 rounded-md px-2 py-1 
-                        ${selectedIds.size === 0 ? 'bg-gray-300' : 'bg-sky-200 active:bg-sky-300'}`}
-                    action={() => {
-                        setSelectedIds(new Set<number>());
+                        ${selectedTransactionsIds.size === 0 ? 'bg-gray-300' : 'bg-sky-200 active:bg-sky-300'}`}
+                    onClick={() => {
+                        setSelectedTransactionsIds(new Set<number>());
                     }}
-                    disabled={selectedIds.size === 0}
+                    disabled={selectedTransactionsIds.size === 0}
                 >
                     <p className={'text-gray-800'}>선택 일괄 해제</p>
-                </Button>
+                </button>
             </div>
             <div className="flex w-full px-8 py-4 rounded-2xl flex-col gap-2 justify-center items-start bg-sky-100">
                 {visibleTransactions.map((t) => {
                     const date = new Date(t.date);
-                    const isSelected = selectedIds.has(t.id);
+                    const isSelected = selectedTransactionsIds.has(t.id);
 
                     return (
                         <div
@@ -166,7 +173,8 @@ export default function SimpleTransaction({
                             </div>
 
                             {/*거래 내용 및 금액*/}
-                            <div className="flex justify-between xl:flex-1 flex-none">
+                            {/*todo 여기 클릭시 memo 띄우기*/}
+                            <div className="flex justify-between xl:flex-1 flex-none hover:cursor-pointer">
                                 <p className="w-40 truncate">{t.title}</p>
                                 <p className="w-32 text-right">
                                     {makePriceWithComma(Number(t.price))}
@@ -185,23 +193,56 @@ export default function SimpleTransaction({
                             </div>
 
                             {/*edit 아이콘*/}
-                            {/*todo 수정 삭제 재입력(다중선택 혹은 단일 선택후 클릭시 바로 post요청 같은걸로 오늘날짜로)*/}
-                            <div className={'flex-1 flex text-xl max-w-80'}>
+                            <div
+                                className={
+                                    'flex-1 flex justify-between xl:pr-20 pr-6 text-xl max-w-80 '
+                                }
+                            >
                                 {editIconList.map((o) => {
+                                    const mdType = o.key.split('_')[1] as modalType;
+
                                     return (
-                                        <Button
+                                        <button
                                             key={o.key}
                                             type={'button'}
-                                            className={'flex-1'}
+                                            className={'flex hover:cursor-pointer max-w-fit'}
+                                            onClick={() => {
+                                                if (mdType !== '' && mdType !== 'delete') {
+                                                    setSelectedTransaction(t);
+                                                }
+
+                                                setShowModalType(mdType);
+                                            }}
+                                            onMouseDown={(
+                                                e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+                                            ) => {
+                                                if (mdType !== '' && mdType !== 'delete') {
+                                                    e.stopPropagation();
+                                                }
+                                            }}
                                         >
                                             {o.icon}
-                                        </Button>
+                                        </button>
                                     );
                                 })}
                             </div>
                         </div>
                     );
                 })}
+
+                {showModalType && (
+                    <EditingModal
+                        modalType={showModalType}
+                        backgroundClick={() => {
+                            setShowModalType('');
+                            setSelectedTransaction(undefined);
+                        }}
+                        transaction={showModalType === 'delete' ? undefined : selectedTransaction}
+                        selectedIds={
+                            showModalType === 'delete' ? selectedTransactionsIds : undefined
+                        }
+                    />
+                )}
 
                 {/* 페이지네이션 컴포넌트 */}
                 {!isRangeDate && totalPages > 1 && (

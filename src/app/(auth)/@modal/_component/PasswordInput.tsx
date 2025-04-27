@@ -2,12 +2,10 @@
 
 //비밀번호 인풋 + 검증 에러
 import InputModal from '@/app/(auth)/@modal/_component/_base/ModalInput';
-import Button from '@/_component/Button';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { InvalidInputError } from '@/app/(auth)/@modal/_component/_base/ModalInvalidInputError';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
-import { useEmailInput, usePasswordInput } from '@/app/(auth)/@modal/_states/inputState';
 import { usePathname } from 'next/navigation';
 
 export default function PasswordInput() {
@@ -63,14 +61,14 @@ export default function PasswordInput() {
             />
 
             {/*pw change visibility*/}
-            <Button
-                action={onClickChangeVisibilityPW}
+            <button
+                onClick={onClickChangeVisibilityPW}
                 type={'button'}
                 className={'absolute top-1 py-3 text-xl right-2 text-gray-600'}
                 disabled={!passwordInput}
             >
                 {!isPwVisible || !passwordInput ? <IoEyeOff /> : <IoEye />}
-            </Button>
+            </button>
 
             {/*pw error*/}
             {errors.password && <InvalidInputError>{errors.password}</InvalidInputError>}

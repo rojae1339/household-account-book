@@ -1,11 +1,10 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import Button from '@/_component/Button';
+import React from 'react';
 import { MdCloseFullscreen } from 'react-icons/md';
 import { usePathname, useRouter } from 'next/navigation';
 import { baseProps } from '@/_constants/props';
-import { non_authMainDir, authMainDir } from '@/_constants/navigateConstants';
+import { authMainDir, non_authMainDir } from '@/_constants/navigateConstants';
 
 const className = {
     base:
@@ -14,7 +13,7 @@ const className = {
         '',
 };
 
-export default function ModalDefault({ children }: baseProps) {
+export const ModalDefault = ({ children }: baseProps) => {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -34,9 +33,9 @@ export default function ModalDefault({ children }: baseProps) {
             />
             <div className={className['base']}>
                 <div className={'w-[90%]'}>{children}</div>
-                <Button
+                <button
                     type={undefined}
-                    action={() => {
+                    onClick={() => {
                         if (pathname.includes(non_authMainDir)) {
                             router.push(non_authMainDir);
                             return;
@@ -46,8 +45,16 @@ export default function ModalDefault({ children }: baseProps) {
                     className={'fixed left-[90%] lg:left-[93%] top-3 text-xl hover:cursor-pointer'}
                 >
                     {<MdCloseFullscreen />}
-                </Button>
+                </button>
             </div>
         </>
     );
-}
+};
+
+export const ModalDefaultWithoutButton = ({ children }: baseProps) => {
+    return (
+        <>
+            <div className={className['base']}>{children}</div>
+        </>
+    );
+};

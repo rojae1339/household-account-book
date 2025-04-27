@@ -1,4 +1,5 @@
 import { IBaseUser } from '@/_schema/userSchema';
+import { z } from 'zod';
 
 export enum ETransactionType {
     SALARY = '월급',
@@ -16,4 +17,14 @@ export enum ETransactionType {
     LEISURE_ENTERTAINMENT = '여가, 유흥',
     TAX_INTEREST = '세금, 이자',
     OTHER_EXPENSES = '기타비용',
+}
+
+export interface ITransactionBase {
+    id: number;
+    userId: IBaseUser['id'];
+    title: string;
+    date: string;
+    price: string; // 금액 추가
+    memo: string;
+    categoryId: number; //join하기
 }

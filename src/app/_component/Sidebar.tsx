@@ -3,13 +3,12 @@
 import { FaHamburger } from 'react-icons/fa';
 
 import { usePathname } from 'next/navigation';
-import Button from '@/_component/Button';
 import {
     forumDir,
     forumNavObject,
-    non_authMainDir,
     iconBackForward,
     ledgerNavObject,
+    non_authMainDir,
     profileDir,
     profileNavObject,
     TNavObjectGroup,
@@ -76,13 +75,13 @@ export default function Sidebar() {
                     md:translate-x-0 z-40 rounded-md`}
             >
                 {/* 햄버거 버튼 (사이드바 안에 위치) */}
-                <Button
+                <button
                     className="absolute top-4 right-[-40px] p-2 text-gray-500 hover:text-white bg-blue-300 rounded-r-lg shadow md:hidden"
-                    action={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsOpen(!isOpen)}
                     type="button"
                 >
                     <FaHamburger size={20} />
-                </Button>
+                </button>
 
                 {/* 사이드바 내용 */}
                 <aside className="overflow-y-auto h-full">
@@ -91,15 +90,15 @@ export default function Sidebar() {
                             {Object.values(iconBackForward).map((icon) => {
                                 //todo 뒤로가기 앞으로가기 불가능하면 버튼 비활성화
                                 return (
-                                    <Button
+                                    <button
                                         key={`side_${icon.keyName}`}
                                         type="button"
-                                        action={icon.onClick}
+                                        onClick={icon.onClick}
                                         className={`cursor-pointer text-2xl transform duration-100
                                         ${icon.keyName.includes('Back') ? 'hover:pl-1 hover:text-3xl' : 'hover:pr-1 hover:text-3xl'}`}
                                     >
                                         {icon.icon}
-                                    </Button>
+                                    </button>
                                 );
                             })}
                         </div>

@@ -19,8 +19,6 @@ function LedgerContent() {
     const { isWidthEnough } = useWidthEnough(enoughWidth, ref);
     const { transactions, isLoading, isError } = useTransaction(); // 여기서 안전하게 사용
 
-    console.log('data');
-
     if (isError) {
         notFound();
     }

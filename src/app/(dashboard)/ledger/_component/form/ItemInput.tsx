@@ -12,7 +12,7 @@ export default function ItemInput({ title }: { title: string }) {
             <p className={'text-xs text-gray-600'}>{title}</p>
             <input
                 autoComplete={'off'}
-                name={'item'}
+                name={'title'}
                 value={itemInput}
                 onChange={(e) => setItemInput(e.currentTarget.value)}
                 placeholder={title}

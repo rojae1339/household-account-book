@@ -13,3 +13,12 @@ export interface ITransactionResponse {
     displayName: string; // 표시 이름 추가
     transactionType: 'INCOME' | 'EXPENDITURE'; // 수입/지출 구분 추가
 }
+
+export interface IUpdateTransactionRequest {
+    title: string;
+    price: string;
+    date: Date;
+    memo?: string;
+    displayName: string;
+    transactionType: 'INCOME' | 'EXPENDITURE';
+}

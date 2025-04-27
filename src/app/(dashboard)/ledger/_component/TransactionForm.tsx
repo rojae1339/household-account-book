@@ -6,7 +6,6 @@ import PriceInput from '@/app/(dashboard)/ledger/_component/form/PriceInput';
 import TransactionTypeSelectBox from '@/app/(dashboard)/ledger/_component/form/TransactionTypeSelectBox';
 import { useRef } from 'react';
 import TransactionClassificationInput from '@/app/(dashboard)/ledger/_component/form/TransactionClassificationInput';
-import Button from '@/_component/Button';
 
 export default function TransactionForm({ isWidthEnough }: { isWidthEnough: boolean }) {
     const formRef = useRef<HTMLFormElement>(null);
@@ -34,14 +33,14 @@ export default function TransactionForm({ isWidthEnough }: { isWidthEnough: bool
 
                     {/* 버튼을 항상 오른쪽에 고정 */}
                     <div className={'w-full flex justify-end mt-auto'}>
-                        <Button
+                        <button
                             type={'submit'}
                             className={
                                 'bg-emerald-200 rounded-md lg:w-fit w-full px-4 py-2 text-sm'
                             }
                         >
                             입력
-                        </Button>
+                        </button>
                     </div>
                 </form>
             </div>

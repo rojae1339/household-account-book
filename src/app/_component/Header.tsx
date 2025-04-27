@@ -1,11 +1,11 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-    non_authMainDir,
     authMainDir,
+    non_authMainDir,
     pagesNavObject,
     pwFindDir,
     pwResetDir,
@@ -14,7 +14,6 @@ import {
     tokenErrorDir,
 } from '@/_constants/navigateConstants';
 import LogoIcon from '@/_component/LocoIcon';
-import Button from '@/_component/Button';
 
 export default function Header() {
     const pathname: string = usePathname();
@@ -61,22 +60,22 @@ export function AuthHeader() {
     return (
         <div className={'w-full'}>
             <div className={'flex gap-6 px-6 w-full xs:w-auto xs:justify-end justify-between'}>
-                <Button
-                    action={() => {
+                <button
+                    onClick={() => {
                         router.push(signinDir);
                     }}
                     className={'bg-blue-300/30 hover:cursor-pointer'}
                     type={'button'}
                 >
                     {<p>Login</p>}
-                </Button>
-                <Button
-                    action={() => router.push(signupDir)}
+                </button>
+                <button
+                    onClick={() => router.push(signupDir)}
                     className={'bg-blue-300/30 hover:cursor-pointer'}
                     type={'button'}
                 >
                     Sign Up
-                </Button>
+                </button>
             </div>
         </div>
     );

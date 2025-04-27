@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/_component/Button';
 import React, { useTransition } from 'react';
 import EmailInput from '@/app/(auth)/@modal/_component/EmailInput';
 import { redirect, useRouter } from 'next/navigation';
@@ -44,20 +43,20 @@ export default function PwFindModal() {
                     {/*Email 인풋*/}
                     <EmailInput />
 
-                    <Button
-                        action={() => {}}
+                    <button
+                        onClick={() => {}}
                         type={'submit'}
                         className={'text-white bg-blue-400 oauth-nav hover:cursor-pointer'}
                     >
                         Password Reset Request
-                    </Button>
-                    <Button
-                        action={() => redirect('/')}
+                    </button>
+                    <button
+                        onClick={() => redirect('/')}
                         type={'button'}
                         className={'hover:cursor-pointer'}
                     >
                         메인화면으로
-                    </Button>
+                    </button>
 
                     {isPending ? <PwFindLoading /> : null}
                 </form>

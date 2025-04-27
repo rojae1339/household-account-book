@@ -2,11 +2,10 @@
 
 import EmailInput from '@/app/(auth)/@modal/_component/EmailInput';
 import PasswordInput from '@/app/(auth)/@modal/_component/PasswordInput';
-import Button from '@/_component/Button';
 import React, { useTransition } from 'react';
 import ModalAlly from '@/app/(auth)/@modal/(signin-signup)/_component/ModalA11y';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import FormSignupLoading from '@/app/(auth)/@modal/(signin-signup)/(.)signup/loading';
 import { authMainDir } from '@/_constants/navigateConstants';
 import { handlerFormSignup } from '@/app/api/(users)/_service/userService';
@@ -50,14 +49,14 @@ export default function SignupModal() {
             <ModalAlly />
 
             {/*continue button*/}
-            <Button
+            <button
                 type={'submit'}
                 className={
                     'w-fit px-4 py-2 rounded-md text-white bg-blue-400 ml-auto hover:cursor-pointer hover:bg-sky-300'
                 }
             >
                 Continue
-            </Button>
+            </button>
 
             {isPending ? <FormSignupLoading /> : null}
         </form>

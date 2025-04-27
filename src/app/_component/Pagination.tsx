@@ -1,5 +1,4 @@
 // 페이지네이션 컴포넌트
-import Button from '@/_component/Button';
 
 type props = {
     currentPage: number;
@@ -23,9 +22,9 @@ export default function Pagination({
 }: props) {
     const PaginationButton = ({ action, title, disabled }: paginationButtonProps) => {
         return (
-            <Button
+            <button
                 type={'button'}
-                action={action}
+                onClick={action}
                 disabled={disabled}
                 className={`px-3 py-1 rounded ${
                     disabled
@@ -34,7 +33,7 @@ export default function Pagination({
                 }`}
             >
                 {title}
-            </Button>
+            </button>
         );
     };
 
@@ -53,10 +52,10 @@ export default function Pagination({
     const pageButtons = [];
     for (let i = startPage; i <= endPage; i++) {
         pageButtons.push(
-            <Button
+            <button
                 key={i}
                 type={'button'}
-                action={() => onPageChange(i)}
+                onClick={() => onPageChange(i)}
                 disabled={i === currentPage}
                 className={`w-8 h-8 flex items-center justify-center rounded ${
                     i === currentPage
@@ -65,7 +64,7 @@ export default function Pagination({
                 }`}
             >
                 {i}
-            </Button>,
+            </button>,
         );
     }
 
