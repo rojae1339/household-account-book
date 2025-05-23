@@ -7,7 +7,9 @@ import Pagination from '@/app/_component/Pagination';
 import { FaRegEdit } from 'react-icons/fa';
 import { BsRecycle } from 'react-icons/bs';
 import { IoTrashBinOutline } from 'react-icons/io5';
-import { EditingModal } from '@/app/(dashboard)/ledger/_component/EditingModal';
+import EditTransactionModal from '@/app/(dashboard)/ledger/_component/EditTransactionModal';
+import RecycleTransactionModal from '@/app/(dashboard)/ledger/_component/RecycleTransactionModal';
+import DeleteTransactionsModal from '@/app/(dashboard)/ledger/_component/DeleteTransactionsModal';
 
 const makeDay = (date: Date) => {
     const day = date.getDay();
@@ -36,11 +38,11 @@ function changeSetVisibility(prev: Set<number>, id: number) {
     return newSet;
 }
 
-interface IEditIcon {
+interface IFunctionIcon {
     key: string;
     icon: ReactElement;
 }
-const editIconList: IEditIcon[] = [
+const functionIcons: IFunctionIcon[] = [
     {
         key: 'editIcon_edit',
         icon: <FaRegEdit />,
@@ -66,9 +68,7 @@ export default function SimpleTransaction({
     isRangeDate: boolean;
     transactions: ITransactionResponse[];
 }) {
-    const [selectedTransaction, setSelectedTransaction] = useState<
-        ITransactionResponse | undefined
-    >(undefined);
+    const [selectedTransaction, setSelectedTransaction] = useState<ITransactionResponse>();
     const [selectedTransactionsIds, setSelectedTransactionsIds] = useState<Set<number>>(new Set());
     const [currentPage, setCurrentPage] = useState<number>(1);
     const isDragging = useRef(false);
@@ -198,27 +198,39 @@ export default function SimpleTransaction({
                                     'flex-1 flex justify-between xl:pr-20 pr-6 text-xl max-w-80 '
                                 }
                             >
-                                {editIconList.map((o) => {
+                                {functionIcons.map((o) => {
                                     const mdType = o.key.split('_')[1] as modalType;
 
                                     return (
                                         <button
                                             key={o.key}
-                                            type={'button'}
-                                            className={'flex hover:cursor-pointer max-w-fit'}
+                                            type="button"
+                                            data-type={mdType}
+                                            className="flex hover:cursor-pointer max-w-fit"
                                             onClick={() => {
-                                                if (mdType !== '' && mdType !== 'delete') {
+                                                if (mdType === 'delete') {
+                                                    // delete 눌렀을 때, 선택 안되어 있으면 추가
+                                                    if (!selectedTransactionsIds.has(t.id)) {
+                                                        setSelectedTransactionsIds((prev) => {
+                                                            const newSet = new Set(prev);
+                                                            newSet.add(t.id);
+                                                            return newSet;
+                                                        });
+                                                    }
+                                                } else if (
+                                                    mdType === 'edit' ||
+                                                    mdType === 'recycle'
+                                                ) {
+                                                    // edit이나 recycle 버튼을 누르면 모든 selectedIds를 지우고 현재 transaction만 선택
+                                                    setSelectedTransactionsIds(new Set([t.id]));
+                                                    setSelectedTransaction(t);
+                                                } else if (mdType !== '') {
                                                     setSelectedTransaction(t);
                                                 }
-
                                                 setShowModalType(mdType);
                                             }}
-                                            onMouseDown={(
-                                                e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-                                            ) => {
-                                                if (mdType !== '' && mdType !== 'delete') {
-                                                    e.stopPropagation();
-                                                }
+                                            onMouseDown={(e) => {
+                                                e.stopPropagation();
                                             }}
                                         >
                                             {o.icon}
@@ -230,17 +242,24 @@ export default function SimpleTransaction({
                     );
                 })}
 
-                {showModalType && (
-                    <EditingModal
-                        modalType={showModalType}
-                        backgroundClick={() => {
-                            setShowModalType('');
-                            setSelectedTransaction(undefined);
-                        }}
-                        transaction={showModalType === 'delete' ? undefined : selectedTransaction}
-                        selectedIds={
-                            showModalType === 'delete' ? selectedTransactionsIds : undefined
-                        }
+                {showModalType === 'edit' && selectedTransaction && (
+                    <EditTransactionModal
+                        backgroundClick={() => setShowModalType('')}
+                        transaction={selectedTransaction}
+                    />
+                )}
+
+                {showModalType === 'recycle' && selectedTransaction && (
+                    <RecycleTransactionModal
+                        backgroundClick={() => setShowModalType('')}
+                        transaction={selectedTransaction}
+                    />
+                )}
+
+                {showModalType === 'delete' && (
+                    <DeleteTransactionsModal
+                        backgroundClick={() => setShowModalType('')}
+                        selectedTransactionsIds={selectedTransactionsIds}
                     />
                 )}
 
