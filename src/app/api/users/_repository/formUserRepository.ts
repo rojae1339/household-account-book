@@ -48,7 +48,8 @@ export const formUserRepository: IFormUserRepository = {
 
         const [userRes] = await con.execute('INSERT INTO users (dtype) VALUES (?)', ['form_users']);
 
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const id = userRes.insertId;
 
         const [result] = await con.execute(

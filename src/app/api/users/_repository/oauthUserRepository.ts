@@ -31,7 +31,8 @@ export const oauthUserRepository: IOauthUserRepository = {
             'oauth_users',
         ]);
 
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const id = userRes.insertId;
 
         const [result] = await con.execute(
