@@ -2,7 +2,7 @@
 
 import TransactionForm from '@/app/(dashboard)/ledger/_component/TransactionForm';
 import SimpleTransaction from '@/app/(dashboard)/ledger/_component/SimpleTransac';
-import { Suspense, useRef } from 'react';
+import { useRef } from 'react';
 import FetchTransactionSkeleton from '@/app/(dashboard)/ledger/loading';
 import { useWidthEnough } from '@/app/(dashboard)/ledger/_hooks/useWidthEnough';
 import { useTransaction } from '@/app/(dashboard)/ledger/_lib/useTransaction';

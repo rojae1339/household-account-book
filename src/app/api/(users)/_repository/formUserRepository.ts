@@ -6,11 +6,17 @@ import { QueryResult } from 'mysql2';
 
 export interface IFormUserRepository {
     getUserByEmail(email: string): Promise<IFormUserResponse[]>;
+
     getUserByToken(token: string): Promise<IFormUserResponse[]>;
+
     addFormUser(req: IFormUser): Promise<QueryResult>;
+
     updateFormUserVerified(userId: number): Promise<void>;
+
     updatePassword(userId: number, password: string): Promise<void>;
+
     changeVerificationTokenCode(userId: number, token: string): Promise<void>;
+
     deleteUserById(id: number): Promise<void>;
 }
 

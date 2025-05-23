@@ -9,6 +9,7 @@ export interface IOauthUserRepository {
         provider: string,
         providerId: string,
     ): Promise<IOauthUserResponse[]>;
+
     addOauthUser(oauthUser: IOAuthUser): Promise<QueryResult>;
 }
 

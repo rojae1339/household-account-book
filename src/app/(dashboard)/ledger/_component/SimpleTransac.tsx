@@ -42,6 +42,7 @@ interface IFunctionIcon {
     key: string;
     icon: ReactElement;
 }
+
 const functionIcons: IFunctionIcon[] = [
     {
         key: 'editIcon_edit',

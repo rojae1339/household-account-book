@@ -1,8 +1,5 @@
-import Header from '@/app/_component/Header';
 import Sidebar from '@/app/_component/Sidebar';
 import React from 'react';
-import { pagesNavObject } from '@/_constants/navigateConstants';
-import Link from 'next/link';
 import { baseProps } from '@/_constants/props';
 
 export default function AfterSignupLayout({ children }: baseProps) {

@@ -1,5 +1,4 @@
 import { IBaseUser } from '@/_schema/userSchema';
-import { z } from 'zod';
 
 export enum ETransactionType {
     SALARY = '월급',

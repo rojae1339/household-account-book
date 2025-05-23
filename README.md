@@ -16,15 +16,15 @@ Mar,07, 2025 - ??.??, 2025
 
 - 수기작성시 문제
 
-  1. 수기로 가계부 장부에 작성을 하게 되면, 수정, 삭제 등에 번거러움이 존재함.
-  2. 수기로 가계부 장부에 작성시 매월 동일한 시간에 작성되어야 할 가계를 직접 까먹지 않고 작성해야하는 문제가 있음.
-  3. 같은 표기법(제목, 금액, 수입 및 지출 순서 등)으로 작성을 해야하는데, 바쁘게 살다보면 막 작성하게 됨.
-  4. 전체 수입 대비 지출을 한번에 파악하기 어려움.
+    1. 수기로 가계부 장부에 작성을 하게 되면, 수정, 삭제 등에 번거러움이 존재함.
+    2. 수기로 가계부 장부에 작성시 매월 동일한 시간에 작성되어야 할 가계를 직접 까먹지 않고 작성해야하는 문제가 있음.
+    3. 같은 표기법(제목, 금액, 수입 및 지출 순서 등)으로 작성을 해야하는데, 바쁘게 살다보면 막 작성하게 됨.
+    4. 전체 수입 대비 지출을 한번에 파악하기 어려움.
 
 - 앱 및 장부 공통 문제
-  1. 자산관리를 위한 앱이지만 자신의 소비성향이 어떤지, 어떻게 줄여가야 하는지 경제관념이 부족한 사람은 파악하기 어려움.
-  2. 일시불, 할부, 렌탈, 리스 등 소비할때에 구매하거나 빌리는 옵션이 있는데, 어떤걸 어느정도로 사용해야 이득인지 한눈에 알아보는 서비스가 존재하지 않음.
-  3.
+    1. 자산관리를 위한 앱이지만 자신의 소비성향이 어떤지, 어떻게 줄여가야 하는지 경제관념이 부족한 사람은 파악하기 어려움.
+    2. 일시불, 할부, 렌탈, 리스 등 소비할때에 구매하거나 빌리는 옵션이 있는데, 어떤걸 어느정도로 사용해야 이득인지 한눈에 알아보는 서비스가 존재하지 않음.
+    3.
 
 ### solving
 
@@ -56,27 +56,28 @@ export type TNavObjectGroup = Record<string, INavObject>;
 4. 반응형 디자인 추가
 5. 변수로 경로지정해 유지보수 간편화
 
-
 #### Sidebar 컴포넌트(클라이언트 컴포넌트)
 
 1. 각 탭(가계부, 게시글, 프로필)에 따라 네비게이션 변화
-   1. 상수 객체로 map을 이용해서 출력
-   2. 후에 다양한 네비게이션 추가가 쉬움
+    1. 상수 객체로 map을 이용해서 출력
+    2. 후에 다양한 네비게이션 추가가 쉬움
 2. 네비게이션 객체를 타입으로 지정함으로서 유지보수 간편화
-   1. NavObject객체의 타입을 interface로 지정
-   2. 이러한 NavObject객체의 그룹을 type으로 지정
+    1. NavObject객체의 타입을 interface로 지정
+    2. 이러한 NavObject객체의 그룹을 type으로 지정
 3. 반응형 디자인 추가
-   1. 일정 크기 이하로 화면이 줄면 햄버거 메뉴 추가
-   2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
+    1. 일정 크기 이하로 화면이 줄면 햄버거 메뉴 추가
+    2. 햄버거 메뉴로 사이드바 토글 시 사이드바 제외한 화면 비활성화
 
 #### Authentication/Authorization (홈/로그인/회원가입 페이지)
+
 토큰을 통한 검증 및 어느 도메인이든 접속시 토큰 검증을 통해 <br>
 검증 성공하면 `/ledger`로 리다이렉트 <br>
 검증 실패시 `'/`로 리다이렉트
 
 JWT : `/src/_utils/jwtUtils.ts`, `middleware.ts`, `/src/app/api/auth/[..nextauth]/route.ts` <br>
 Oauth: `/src/app/api/auth/[..nextauth]/route.ts`, `/src/_component/AuthProvider.tsx`, `/src/_utils/oauth.ts`, `/src/app/api/(users)/_repository/oauthUserRepository.ts`<br>
-Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/formUserRepository.ts`, `/src/app/api/(users)/_service/userService.ts, emailVerification.ts`, `/src/app/api/(users)/verify/route.ts`<br>
+Form: `/src/_utils/dbUserUtils.ts`, `/src/app/api/(users)/_repository/formUserRepository.ts`, `/src/app/api/(users)/_service/userService.ts, emailVerification.ts`,
+`/src/app/api/(users)/verify/route.ts`<br>
 
 ## Tech Stack
 

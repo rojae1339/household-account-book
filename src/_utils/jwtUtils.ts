@@ -1,5 +1,3 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
-import { BuiltInProviderType } from 'next-auth/providers/index';
 import { jwtVerify, SignJWT } from 'jose';
 
 export interface JwtPayload {

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 
 export function useWidthEnough(threshold: number, ref: RefObject<HTMLElement | null>) {
     const [isWidthEnough, setIsWidthEnough] = useState<boolean>(true);

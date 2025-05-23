@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { IoMdArrowDropdown } from 'react-icons/io';
-import { IoMdArrowDropright } from 'react-icons/io';
+import { IoMdArrowDropdown, IoMdArrowDropright } from 'react-icons/io';
 
 export default function ItemInput({ title }: { title: string }) {
     const [isMemoOpen, setIsMemoOpen] = useState<boolean>(false);

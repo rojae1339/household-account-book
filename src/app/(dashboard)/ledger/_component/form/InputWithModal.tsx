@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { Ref, RefObject } from 'react';
+import React, { RefObject } from 'react';
 import { baseProps } from '@/_constants/props';
 import { useMouseLeaveClose } from '@/app/(dashboard)/_utils/useMouseLeaveCheck';
 

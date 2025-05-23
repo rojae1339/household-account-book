@@ -1,5 +1,4 @@
 import { IBaseUser } from '@/_schema/userSchema';
-import { ETransactionType } from '@/_schema/transactionSchema';
 
 export interface ITransactionResponse {
     id: number;

@@ -4,7 +4,6 @@ import InputModal from '@/app/(auth)/@modal/_component/_base/ModalInput';
 import { InvalidInputError } from '@/app/(auth)/@modal/_component/_base/ModalInvalidInputError';
 import React, { useEffect, useState } from 'react';
 import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
-import { useEmailInput } from '@/app/(auth)/@modal/_states/inputState';
 import { usePathname } from 'next/navigation';
 
 //이메일 인풋 + 검증에러

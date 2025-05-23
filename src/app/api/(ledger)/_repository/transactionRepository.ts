@@ -52,8 +52,8 @@ export const transactionRepository: ITransactionRepository = {
 
         const [res] = await con.execute(
             `SELECT *
-                                         FROM transactions
-                                         WHERE id = ?`,
+             FROM transactions
+             WHERE id = ?`,
             [id],
         );
 
