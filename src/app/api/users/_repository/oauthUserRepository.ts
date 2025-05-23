@@ -31,6 +31,7 @@ export const oauthUserRepository: IOauthUserRepository = {
             'oauth_users',
         ]);
 
+        // @ts-ignore
         const id = userRes.insertId;
 
         const [result] = await con.execute(

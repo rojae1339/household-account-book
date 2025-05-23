@@ -1,6 +1,5 @@
 import { ModalDefaultWithoutButton } from '@/_component/Modal';
 import React from 'react';
-import { ITransactionResponse } from '@/app/api/ledger/_dto/transactionDtos';
 
 type props = {
     backgroundClick: () => void;

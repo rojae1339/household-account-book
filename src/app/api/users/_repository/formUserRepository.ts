@@ -48,6 +48,7 @@ export const formUserRepository: IFormUserRepository = {
 
         const [userRes] = await con.execute('INSERT INTO users (dtype) VALUES (?)', ['form_users']);
 
+        // @ts-ignore
         const id = userRes.insertId;
 
         const [result] = await con.execute(

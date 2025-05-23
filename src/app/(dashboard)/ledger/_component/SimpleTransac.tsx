@@ -253,14 +253,14 @@ export default function SimpleTransaction({
                 {showModalType === 'recycle' && selectedTransaction && (
                     <RecycleTransactionModal
                         backgroundClick={() => setShowModalType('')}
-                        transaction={selectedTransaction}
+                        //transaction={selectedTransaction}
                     />
                 )}
 
                 {showModalType === 'delete' && (
                     <DeleteTransactionsModal
                         backgroundClick={() => setShowModalType('')}
-                        selectedTransactionsIds={selectedTransactionsIds}
+                        //selectedTransactionsIds={selectedTransactionsIds}
                     />
                 )}
 
