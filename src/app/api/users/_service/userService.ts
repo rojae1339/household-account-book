@@ -6,16 +6,13 @@ import {
     generateVerificationToken,
     hashPassword,
 } from '@/_utils/dbUserUtils';
-import { formUserRepository } from '@/app/api/(users)/_repository/formUserRepository';
+import { formUserRepository } from '@/app/api/users/_repository/formUserRepository';
 import { pwFindSchema, pwResetSchema, signinSchema, signupSchema } from '@/_schema/authSchema';
 import bcrypt from 'bcryptjs';
-import {
-    sendPwFindEmail,
-    sendVerificationEmail,
-} from '@/app/api/(users)/_service/emailVerification';
+import { sendPwFindEmail, sendVerificationEmail } from '@/app/api/users/_service/emailVerification';
 import { sign } from '@/_utils/jwtUtils';
 import { cookies } from 'next/headers';
-import { IFormUserResponse } from '@/app/api/(users)/_dto/userDtos';
+import { IFormUserResponse } from '@/app/api/users/_dto/userDtos';
 
 export interface ISignupResponse {
     success: boolean;

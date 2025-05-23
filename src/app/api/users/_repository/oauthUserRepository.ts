@@ -1,7 +1,6 @@
-// src/app/api/(users)/_repository/oauthUserRepository.ts
 import { IOAuthUser } from '@/_schema/userSchema';
 import { getDbConnection } from '@/_lib/db';
-import { IOauthUserResponse } from '@/app/api/(users)/_dto/userDtos';
+import { IOauthUserResponse } from '@/app/api/users/_dto/userDtos';
 import { QueryResult } from 'mysql2';
 
 export interface IOauthUserRepository {

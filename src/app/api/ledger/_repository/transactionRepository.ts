@@ -4,7 +4,7 @@ import { IBaseUser } from '@/_schema/userSchema';
 import {
     ITransactionResponse,
     IUpdateTransactionRequest,
-} from '@/app/api/(ledger)/_dto/transactionDtos';
+} from '@/app/api/ledger/_dto/transactionDtos';
 import { getDbConnection } from '@/_lib/db';
 import { ITransactionBase } from '@/_schema/transactionSchema';
 

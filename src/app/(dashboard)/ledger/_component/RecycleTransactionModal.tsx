@@ -1,13 +1,13 @@
 import { ModalDefaultWithoutButton } from '@/_component/Modal';
 import React from 'react';
-import { ITransactionResponse } from '@/app/api/(ledger)/_dto/transactionDtos';
+import { ITransactionResponse } from '@/app/api/ledger/_dto/transactionDtos';
 
 type props = {
     backgroundClick: () => void;
-    transaction: ITransactionResponse; // 단일 트랜잭션 ID
+    //transaction: ITransactionResponse; // 단일 트랜잭션 ID
 };
 
-export default function RecycleTransactionModal({ backgroundClick, transaction }: props) {
+export default function RecycleTransactionModal({ backgroundClick /*transaction*/ }: props) {
     return (
         <>
             <div

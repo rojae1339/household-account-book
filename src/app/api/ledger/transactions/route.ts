@@ -1,6 +1,6 @@
 // app/api/transactions/route.ts
 import { NextResponse } from 'next/server';
-import { getAllTransactionsByUserId } from '@/app/api/(ledger)/_service/transactionService';
+import { getAllTransactionsByUserId } from '@/app/api/ledger/_service/transactionService';
 
 export async function GET() {
     const transactions = await getAllTransactionsByUserId();

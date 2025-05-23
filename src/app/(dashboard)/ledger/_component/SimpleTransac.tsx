@@ -1,6 +1,6 @@
 'use client';
 
-import { ITransactionResponse } from '@/app/api/(ledger)/_dto/transactionDtos';
+import { ITransactionResponse } from '@/app/api/ledger/_dto/transactionDtos';
 import { makePriceWithComma } from '@/app/(dashboard)/ledger/_utils/priceUtils';
 import React, { ReactElement, useRef, useState } from 'react';
 import Pagination from '@/app/_component/Pagination';

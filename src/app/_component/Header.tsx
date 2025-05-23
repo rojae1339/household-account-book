@@ -82,6 +82,7 @@ export function AuthHeader() {
 }
 
 export function NavHeader({ pathname }: { pathname: string }) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchBarInput, setSearchBarInput] = useState<string>('');
 
     return (

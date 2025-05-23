@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { non_authMainDir, tokenErrorDir } from '@/_constants/navigateConstants';
-import { formUserRepository } from '@/app/api/(users)/_repository/formUserRepository';
+import { formUserRepository } from '@/app/api/users/_repository/formUserRepository';
 import { generateVerificationToken } from '@/_utils/dbUserUtils';
 import { sign } from '@/_utils/jwtUtils';
 

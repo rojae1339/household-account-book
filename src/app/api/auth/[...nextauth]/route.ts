@@ -5,7 +5,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import { authMainDir, non_authMainDir } from '@/_constants/navigateConstants';
 import { sign } from '@/_utils/jwtUtils';
-import { oauthUserRepository } from '@/app/api/(users)/_repository/oauthUserRepository';
+import { oauthUserRepository } from '@/app/api/users/_repository/oauthUserRepository';
 import { IOAuthUser } from '@/_schema/userSchema';
 import { generateShortNickname } from '@/_utils/dbUserUtils';
 import { cookies } from 'next/headers';
@@ -36,6 +36,7 @@ const handler = NextAuth({
         strategy: 'jwt',
     },
     callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         async signIn({ user, account }) {
             const provider = account?.provider;
             const providerId = account?.providerAccountId;

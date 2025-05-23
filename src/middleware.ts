@@ -24,6 +24,7 @@ export async function middleware(request: NextRequest) {
             if ([signinDir, signupDir, authMainDir, '/'].includes(pathname) && payload) {
                 return NextResponse.redirect(new URL(non_authMainDir, request.url));
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             // JWT 만료된 경우 토큰 삭제 및 로그인 페이지로 리다이렉트
             const response = NextResponse.redirect(new URL(authMainDir, request.url));

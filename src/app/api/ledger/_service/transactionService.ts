@@ -2,8 +2,8 @@
 
 import { cookies } from 'next/headers';
 import { JwtPayload, verify } from '@/_utils/jwtUtils';
-import { transactionRepository } from '@/app/api/(ledger)/_repository/transactionRepository';
-import { IUpdateTransactionRequest } from '@/app/api/(ledger)/_dto/transactionDtos';
+import { transactionRepository } from '@/app/api/ledger/_repository/transactionRepository';
+import { IUpdateTransactionRequest } from '@/app/api/ledger/_dto/transactionDtos';
 
 export const getAllTransactionsByUserId = async () => {
     try {

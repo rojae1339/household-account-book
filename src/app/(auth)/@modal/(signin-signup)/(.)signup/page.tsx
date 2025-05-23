@@ -8,7 +8,7 @@ import { useFormErrorStore } from '@/app/(auth)/@modal/_states/errorState';
 import { useRouter } from 'next/navigation';
 import FormSignupLoading from '@/app/(auth)/@modal/(signin-signup)/(.)signup/loading';
 import { authMainDir } from '@/_constants/navigateConstants';
-import { handlerFormSignup } from '@/app/api/(users)/_service/userService';
+import { handlerFormSignup } from '@/app/api/users/_service/userService';
 
 export default function SignupModal() {
     const { setEmailError, setPasswordError, resetError } = useFormErrorStore();

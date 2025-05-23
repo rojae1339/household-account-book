@@ -1,7 +1,6 @@
-// src/app/api/(users)/_repository/formUserRepository.ts
 import { IFormUser } from '@/_schema/userSchema';
 import { getDbConnection } from '@/_lib/db';
-import { IFormUserResponse } from '@/app/api/(users)/_dto/userDtos';
+import { IFormUserResponse } from '@/app/api/users/_dto/userDtos';
 import { QueryResult } from 'mysql2';
 
 export interface IFormUserRepository {

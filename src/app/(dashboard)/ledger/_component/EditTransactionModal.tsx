@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import {
     ITransactionResponse,
     IUpdateTransactionRequest,
-} from '@/app/api/(ledger)/_dto/transactionDtos';
+} from '@/app/api/ledger/_dto/transactionDtos';
 
 type props = {
     backgroundClick: () => void;

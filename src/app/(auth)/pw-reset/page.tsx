@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useTransition } from 'react';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
-import { handlerPwReset } from '@/app/api/(users)/_service/userService';
+import { handlerPwReset } from '@/app/api/users/_service/userService';
 import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
 import { authMainDir } from '@/_constants/navigateConstants';
 

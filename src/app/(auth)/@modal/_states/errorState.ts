@@ -12,7 +12,7 @@ export interface IUseFormErrorStore {
     resetError: () => void;
 }
 
-export const useFormErrorStore = create<IUseFormErrorStore>((set, get) => ({
+export const useFormErrorStore = create<IUseFormErrorStore>((set) => ({
     errors: { email: undefined, password: undefined },
     setEmailError: (email?: string) => set((state) => ({ errors: { ...state.errors, email } })),
     setPasswordError: (password?: string) =>
